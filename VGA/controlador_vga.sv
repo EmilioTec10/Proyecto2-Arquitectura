@@ -1,7 +1,7 @@
 module controlador_vga (input clock_25,
 								input reset,
 								input start,
-								input reg [31:0] data_ram,
+								input reg [23:0] data_ram,
 								input reg [31:0] data_dmem,
 								output reg [31:0] address,
 								output logic we,

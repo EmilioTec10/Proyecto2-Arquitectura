@@ -18,7 +18,7 @@ module main(input clock_50,
 	
 	// ROM
 	reg [31:0] address;
-	logic [31:0] data_out;
+	logic [23:0] data_out;
 	
 	// RAM
 	logic we;

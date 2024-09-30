@@ -2,7 +2,7 @@ module mostrarImagen (input [0:9] x,
 							 input [0:9] y,
 							 input reset,
 							 input start,
-							 input reg [31:0] data_ram,
+							 input reg [23:0] data_ram,
 							 input reg [31:0] data_dmem,
 							 output logic [7:0] red,
 							 output logic [7:0] green,
@@ -10,7 +10,7 @@ module mostrarImagen (input [0:9] x,
 	
 
 	// Variables requeridas
-	logic [7:0] pixel_data;
+	logic [23:0] pixel_data;
 	
 	
 	always_comb begin
@@ -37,11 +37,11 @@ module mostrarImagen (input [0:9] x,
 		
 		else if (start) begin
 			if ((x >= 200 && x <= 455) && (y >= 120 && y <= 375)) begin	
-				pixel_data = data_dmem[7:0];
+				//pixel_data = data_dmem[7:0];
 				
-				red = pixel_data;
-				green = pixel_data;
-				blue = pixel_data;
+				//red = pixel_data;
+				//green = pixel_data;
+				//blue = pixel_data;
 			end
 			
 			else begin
@@ -51,19 +51,14 @@ module mostrarImagen (input [0:9] x,
 			end
 		end
 
-		else if ((x >= 200 && x <= 455) && (y >= 120 && y <= 375)) begin	
-			pixel_data = data_ram[7:0];
+		else if ((x >= 120 && x <= 520) && (y >= 40 && y <= 440)) begin	
+			pixel_data = data_ram;
 			
-			red = pixel_data;
-			green = pixel_data;
-			blue = pixel_data;
+			red = pixel_data[23:16];
+			green = pixel_data[15:8];
+			blue = pixel_data[7:0];
 		end
 		
-		else begin
-			red = 8'b00000000;
-			green = 8'b00000000;
-			blue = 8'b00000000;
-		end
 		
 	end
 	
