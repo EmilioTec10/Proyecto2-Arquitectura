@@ -73,9 +73,6 @@ module main(input clock_50,
 						.address(address),
 						.data_out(data_out_green));
 											
-
-
-				
 	assign vgaclock = clock_25;
 	
 		
