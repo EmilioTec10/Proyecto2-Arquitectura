@@ -19,6 +19,9 @@ module main(input clock_50,
 	// ROM
 	reg [31:0] address;
 	logic [23:0] data_out;
+	logic [7:0] data_out_red;
+	logic [7:0] data_out_blue;
+	logic [7:0] data_out_green;
 	
 	// RAM
 	logic we;
@@ -50,10 +53,25 @@ module main(input clock_50,
 										  .hsync(hsync), 
 										  .vsync(vsync), 
 										  .n_blank(n_blank));
-										  
-	rom rom_image (.clk(clock_50),
+										 
+	
+	concatenar_24 inst_concatenar (.num1(data_out_red),
+											 .num2(data_out_green),
+											 .num3(data_out_blue),
+											 .result(data_out));
+	
+	
+   rom_red rom_image_red (.clk(clock_50),
 						.address(address),
-						.data_out(data_out));
+						.data_out(data_out_red));
+						
+	rom_blue rom_image_blue (.clk(clock_50),
+						.address(address),
+						.data_out(data_out_blue));
+						
+	rom_green rom_image_green (.clk(clock_50),
+						.address(address),
+						.data_out(data_out_green));
 											
 
 

@@ -23,9 +23,9 @@ module mostrarImagen (input [0:9] x,
 		if(reset) begin
 			//Color #6296A1
 			if ((x >= 200 && x <= 455) && (y >= 120 && y <= 375)) begin
-				red = 8'b01100010;
-				green = 8'b10010110;
-				blue = 8'b10100001;
+				red = 8'b00000000;
+				green = 8'b1111111;
+				blue = 8'b00000000;
 			end
 			else begin
 				red = 8'b00000000;
@@ -34,23 +34,6 @@ module mostrarImagen (input [0:9] x,
 			end
 		end
 		
-		
-		else if (start) begin
-			if ((x >= 200 && x <= 455) && (y >= 120 && y <= 375)) begin	
-				//pixel_data = data_dmem[7:0];
-				
-				//red = pixel_data;
-				//green = pixel_data;
-				//blue = pixel_data;
-			end
-			
-			else begin
-				red = 8'b00000000;
-				green = 8'b00000000;
-				blue = 8'b00000000;
-			end
-		end
-
 		else if ((x >= 120 && x <= 520) && (y >= 40 && y <= 440)) begin	
 			pixel_data = data_ram;
 			
