@@ -3,6 +3,7 @@ module controlador_vga (input clock_25,
 								input start,
 								input reg [23:0] data_ram,
 								input reg [31:0] data_dmem,
+								input logic boton_cursor,
 								output reg [31:0] address,
 								output logic we,
 								output [7:0] red,
@@ -17,6 +18,7 @@ module controlador_vga (input clock_25,
 	logic [0:9] linea_num;
 	logic cambio_linea;
 	logic reset_temp = 0;
+	logic [3:0] pos_cursor_out;
 	
 	
 	//Instancias de módulos
@@ -42,11 +44,17 @@ module controlador_vga (input clock_25,
 										 .y(linea_num),
 										 .reset(reset),
 										 .start(start),
+										 .pos_cursor(pos_cursor_out),
 										 .data_ram(data_ram),
 										 .data_dmem(data_dmem),
 										 .red(red), 
 										 .green(green), 
 										 .blue(blue));
+										 
+	contador_cursor contador_cursor_inst(  
+    .boton_cursor(boton_cursor),        
+    .pos_cursor_contado(pos_cursor_out) 
+	);
 													
 													
   	contador_direccion #(32) contador(.clk(clock_25), 

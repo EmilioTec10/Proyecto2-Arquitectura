@@ -1,6 +1,7 @@
 module main(input clock_50,
 				input reset,
 				input start,
+				input logic boton_cursor,
 				output [7:0] red_out,
 				output [7:0] green_out,
 				output [7:0] blue_out,
@@ -45,6 +46,7 @@ module main(input clock_50,
 										  .start(start),
 										  .data_ram(data_out),
 										  .data_dmem(rd),
+										  .boton_cursor(boton_cursor),
 										  .address(address),
 										  .we(0),
 										  .red(red_out),
@@ -61,17 +63,25 @@ module main(input clock_50,
 											 .result(data_out));
 	
 	
-   rom_red rom_image_red (.clk(clock_50),
-						.address(address),
-						.data_out(data_out_red));
-						
-	rom_blue rom_image_blue (.clk(clock_50),
-						.address(address),
-						.data_out(data_out_blue));
-						
-	rom_green rom_image_green (.clk(clock_50),
-						.address(address),
-						.data_out(data_out_green));
+	
+	ram_rojo ram_image_red (.address(address),
+	                        .clock(clock_50),
+	                        .data(7'd0),
+	                        .wren(1'b0),
+	                        .q(data_out_red));
+									
+	ram_verde ram_image_green (.address(address),
+	                        .clock(clock_50),
+	                        .data(7'd0),
+	                        .wren(1'b0),
+	                        .q(data_out_green));
+									
+	ram_azul ram_image_blue (.address(address),
+	                        .clock(clock_50),
+	                        .data(7'd0),
+	                        .wren(1'b0),
+	                        .q(data_out_blue));
+	
 											
 	assign vgaclock = clock_25;
 	

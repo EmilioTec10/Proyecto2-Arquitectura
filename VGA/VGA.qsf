@@ -109,4 +109,12 @@ set_global_assignment -name SYSTEMVERILOG_FILE rom_red.sv
 set_global_assignment -name SYSTEMVERILOG_FILE rom_green.sv
 set_global_assignment -name SYSTEMVERILOG_FILE rom_blue.sv
 set_global_assignment -name SYSTEMVERILOG_FILE concatenar_24.sv
+set_global_assignment -name MIF_FILE valores_rojo.mif
+set_global_assignment -name MIF_FILE valores_verde.mif
+set_global_assignment -name MIF_FILE valores_azul.mif
+set_global_assignment -name QIP_FILE ram_rojo.qip
+set_global_assignment -name QIP_FILE ram_verde.qip
+set_global_assignment -name QIP_FILE ram_azul.qip
+set_global_assignment -name SYSTEMVERILOG_FILE contador_cursor.sv
+set_location_assignment PIN_AJ4 -to boton_cursor
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

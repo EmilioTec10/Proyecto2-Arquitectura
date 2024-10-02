@@ -5,6 +5,7 @@ module mostrarImagen (
     input start,
     input reg [23:0] data_ram,
     input reg [31:0] data_dmem,
+	 input reg [3:0] pos_cursor,
     output logic [7:0] red,
     output logic [7:0] green,
     output logic [7:0] blue
@@ -50,6 +51,107 @@ module mostrarImagen (
                     green = pixel_data[15:8];
                     blue = pixel_data[7:0];
                 end
+					 
+					 // Fila uno cursor
+					 if ((x >= 145 && x <= 195) && (y >= 65 && y <= 115) && pos_cursor == 4'd0) begin
+						  red = 8'b11111111;
+                    green = 8'b00000000;  // Verde fuerte
+                    blue = 8'b00000000;
+					 end
+					 
+					 else if ((x >= 245 && x <= 295) && (y >= 65 && y <= 115) && pos_cursor == 4'd1) begin
+						  red = 8'b11111111;
+                    green = 8'b00000000;  // Verde fuerte
+                    blue = 8'b00000000;
+					 end
+					 
+					 else if ((x >= 345 && x <= 395) && (y >= 65 && y <= 115) && pos_cursor == 4'd2) begin
+						  red = 8'b11111111;
+                    green = 8'b00000000;  // Verde fuerte
+                    blue = 8'b00000000;
+					 end
+					 
+					 else if ((x >= 445 && x <= 495) && (y >= 65 && y <= 115) && pos_cursor == 4'd3) begin
+						  red = 8'b11111111;
+                    green = 8'b00000000;  // Verde fuerte
+                    blue = 8'b00000000;
+					 end
+					 
+					 // Fila dos cursor
+					  if ((x >= 145 && x <= 195) && (y >= 165 && y <= 215) && pos_cursor == 4'd4) begin
+						  red = 8'b11111111;
+                    green = 8'b00000000;  // Verde fuerte
+                    blue = 8'b00000000;
+					 end
+					 
+					 else if ((x >= 245 && x <= 295) && (y >= 165 && y <= 215) && pos_cursor == 4'd5) begin
+						  red = 8'b11111111;
+                    green = 8'b00000000;  // Verde fuerte
+                    blue = 8'b00000000;
+					 end
+					 
+					 else if ((x >= 345 && x <= 395) && (y >= 165 && y <= 215) && pos_cursor == 4'd6) begin
+						  red = 8'b11111111;
+                    green = 8'b00000000;  // Verde fuerte
+                    blue = 8'b00000000;
+					 end
+					 
+					 else if ((x >= 445 && x <= 495) && (y >= 165 && y <= 215) && pos_cursor == 4'd7) begin
+						  red = 8'b11111111;
+                    green = 8'b00000000;  // Verde fuerte
+                    blue = 8'b00000000;
+					 end
+					 
+					 // Fila tres cursor
+					  if ((x >= 145 && x <= 195) && (y >= 265 && y <= 315) && pos_cursor == 4'd8) begin
+						  red = 8'b11111111;
+                    green = 8'b00000000;  // Verde fuerte
+                    blue = 8'b00000000;
+					 end
+					 
+					 else if ((x >= 245 && x <= 295) && (y >= 265 && y <= 315) && pos_cursor == 4'd9) begin
+						  red = 8'b11111111;
+                    green = 8'b00000000;  // Verde fuerte
+                    blue = 8'b00000000;
+					 end
+					 
+					 else if ((x >= 345 && x <= 395) && (y >= 265 && y <= 315) && pos_cursor == 4'd10) begin
+						  red = 8'b11111111;
+                    green = 8'b00000000;  // Verde fuerte
+                    blue = 8'b00000000;
+					 end
+					 
+					 else if ((x >= 445 && x <= 495) && (y >= 265 && y <= 315) && pos_cursor == 4'd11) begin
+						  red = 8'b11111111;
+                    green = 8'b00000000;  // Verde fuerte
+                    blue = 8'b00000000;
+					 end
+					 
+					 // Fila cuatro cursor
+					  if ((x >= 145 && x <= 195) && (y >= 365 && y <= 415) && pos_cursor == 4'd12) begin
+						  red = 8'b11111111;
+                    green = 8'b00000000;  // Verde fuerte
+                    blue = 8'b00000000;
+					 end
+					 
+					 else if ((x >= 245 && x <= 295) && (y >= 365 && y <= 415) && pos_cursor == 4'd13) begin
+						  red = 8'b11111111;
+                    green = 8'b00000000;  // Verde fuerte
+                    blue = 8'b00000000;
+					 end
+					 
+					 else if ((x >= 345 && x <= 395) && (y >= 365 && y <= 415) && pos_cursor == 4'd14) begin
+						  red = 8'b11111111;
+                    green = 8'b00000000;  // Verde fuerte
+                    blue = 8'b00000000;
+					 end
+					 
+					 else if ((x >= 445 && x <= 495) && (y >= 365 && y <= 415) && pos_cursor == 4'd15) begin
+						  red = 8'b11111111;
+                    green = 8'b00000000;  // Verde fuerte
+                    blue = 8'b00000000;
+					 end
+					 
             end
             else begin
                 // Color por defecto (negro) fuera del área de la imagen
