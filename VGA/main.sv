@@ -2,6 +2,7 @@ module main(input clock_50,
 				input reset,
 				input start,
 				input logic boton_cursor,
+				input logic boton_ejecutar,
 				output [7:0] red_out,
 				output [7:0] green_out,
 				output [7:0] blue_out,
@@ -10,37 +11,24 @@ module main(input clock_50,
 				output n_blank,
 				output vgaclock);
 				
-	
-	
-	// Variables requeridas
-	
-	// Reloj
+		
+	// Reloj de la vga
 	logic clock_25;
 	
 	// ROM
-	reg [31:0] address;
+	reg [17:0] address;
 	logic [23:0] data_out;
-	logic [7:0] data_out_red;
-	logic [7:0] data_out_blue;
-	logic [7:0] data_out_green;
+	logic [23:0] data_out_salida;
 	
 	// RAM
 	logic we;
 	logic [31:0] rd;
 	
-	// Procesador
-	logic [31:0] WriteData;
-	logic [31:0] DataAdr;
-	logic MemWrite;
-	logic [31:0] rd_dmem;
-	
-
-	
 		
 	//Instancias de módulos
 	clock25mh clock(clock_50, clock_25);
 	
-			
+		
 	controlador_vga controlador (.clock_25(clock_25),
 										  .reset(reset),
 										  .start(start),
@@ -55,32 +43,11 @@ module main(input clock_50,
 										  .hsync(hsync), 
 										  .vsync(vsync), 
 										  .n_blank(n_blank));
-										 
 	
-	concatenar_24 inst_concatenar (.num1(data_out_red),
-											 .num2(data_out_green),
-											 .num3(data_out_blue),
-											 .result(data_out));
-	
-	
-	
-	ram_rojo ram_image_red (.address(address),
-	                        .clock(clock_50),
-	                        .data(7'd0),
-	                        .wren(1'b0),
-	                        .q(data_out_red));
-									
-	ram_verde ram_image_green (.address(address),
-	                        .clock(clock_50),
-	                        .data(7'd0),
-	                        .wren(1'b0),
-	                        .q(data_out_green));
-									
-	ram_azul ram_image_blue (.address(address),
-	                        .clock(clock_50),
-	                        .data(7'd0),
-	                        .wren(1'b0),
-	                        .q(data_out_blue));
+	//Memoria Rom de la imagen original
+	imagen_original inst_imagen (.address(address),
+										  .clock(clock_50),
+										  .q(data_out));
 	
 											
 	assign vgaclock = clock_25;

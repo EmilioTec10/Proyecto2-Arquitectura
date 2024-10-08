@@ -1,43 +1,51 @@
-import numpy as np
-from PIL import Image
+def txt_to_mif(txt_path, mif_path):
+    # Leer los valores RGB en hexadecimal desde el archivo de texto
+    with open(txt_path, 'r') as txt_file:
+        hex_values = txt_file.read().splitlines()
 
-def hex_to_rgb(hex_str):
-    """Convierte un string hexadecimal (sin espacios) en un valor RGB."""
-    r = int(hex_str[0:2], 16)
-    g = int(hex_str[2:4], 16)
-    b = int(hex_str[4:6], 16)
-    return (r, g, b)
+    # Configuración del archivo MIF
+    mif_header = """-- Copyright (C) 2020  Intel Corporation. All rights reserved.
+-- Your use of Intel Corporation's design tools, logic functions 
+-- and other software and tools, and any partner logic 
+-- functions, and any output files from any of the foregoing 
+-- (including device programming or simulation files), and any 
+-- associated documentation or information are expressly subject 
+-- to the terms and conditions of the Intel Program License 
+-- Subscription Agreement, the Intel Quartus Prime License Agreement,
+-- the Intel FPGA IP License Agreement, or other applicable license
+-- agreement, including, without limitation, that your use is for
+-- the sole purpose of programming logic devices manufactured by
+-- Intel and sold by Intel or its authorized distributors.  Please
+-- refer to the applicable agreement for further details, at
+-- https://fpgasoftware.intel.com/eula.
 
-def generar_imagen(hex_file, output_image):
-    # Dimensiones de la imagen
-    width, height = 400, 400
+-- Quartus Prime generated Memory Initialization File (.mif)
+
+WIDTH=24;
+DEPTH={depth};
+
+ADDRESS_RADIX=UNS;
+DATA_RADIX=HEX;
+
+CONTENT BEGIN
+"""
     
-    # Crear un array para almacenar los valores RGB de los píxeles
-    image_data = np.zeros((height, width, 3), dtype=np.uint8)
-    
-    # Leer el archivo de texto que contiene los valores hexadecimales
-    with open(hex_file, 'r') as file:
-        hex_values = file.read().splitlines()
-    
-    # Asegurarse de que el archivo tenga suficientes valores
-    if len(hex_values) < width * height:
-        raise ValueError(f"El archivo debe tener al menos {width * height} valores hexadecimales.")
-    
-    # Asignar los valores RGB a la imagen
-    index = 0
-    for y in range(height):
-        for x in range(width):
-            rgb = hex_to_rgb(hex_values[index])
-            image_data[y, x] = rgb
-            index += 1
+    mif_content = []
+    # Recorrer cada valor hexadecimal del archivo de texto
+    for address, hex_value in enumerate(hex_values):
+        # Se toma todo el valor hexadecimal (6 caracteres que representan RGB)
+        mif_content.append(f"\t{address}  :   {hex_value};")
 
-    # Crear la imagen utilizando PIL y guardar el archivo
-    img = Image.fromarray(image_data)
-    img.save(output_image)
-    print(f"Imagen guardada como {output_image}")
+    mif_footer = "END;"
+    
+    # Escribir el archivo MIF
+    with open(mif_path, 'w') as mif_file:
+        mif_file.write(mif_header.format(depth=len(hex_values)))
+        mif_file.write("\n".join(mif_content))
+        mif_file.write("\n" + mif_footer)
 
-# Uso del código
-archivo_hexadecimal = 'ruta/del/archivo.txt'  # Cambia esto por la ruta de tu archivo .txt con los hexadecimales
-imagen_salida = 'imagen_generada.png'        # Nombre del archivo de salida
+# Ruta del archivo .txt y del archivo .mif de salida
+txt_path = 'VGA\datos_imagen_hex.txt'
+mif_path = 'imagen.mif'
 
-generar_imagen(archivo_hexadecimal, imagen_salida)
+txt_to_mif(txt_path, mif_path)

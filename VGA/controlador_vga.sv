@@ -4,7 +4,7 @@ module controlador_vga (input clock_25,
 								input reg [23:0] data_ram,
 								input reg [31:0] data_dmem,
 								input logic boton_cursor,
-								output reg [31:0] address,
+								output reg [17:0] address,
 								output logic we,
 								output [7:0] red,
 								output [7:0] green,
@@ -57,12 +57,19 @@ module controlador_vga (input clock_25,
 	);
 													
 													
-  	contador_direccion #(32) contador(.clk(clock_25), 
+  	contador_direccion #(18) contador(.clk(clock_25), 
 												 .reset(reset),
 												 .x(pixel_num), 
 												 .y(linea_num),
 												 .we(we),
 												 .out(address));
+												 
+//	contador_cuadrado contador(.clk(clock_25), 
+//												 .reset(reset),
+//												 .x(pixel_num), 
+//												 .y(linea_num),
+//												 .addr(address),
+//												 .we(we));
 
 	
 endmodule 
