@@ -20,6 +20,7 @@ module Control_Unit_Top_20(
         .tipo(tipo),
         .op(op),
         .Inm(Inm),
+		  
         .RegWrite(RegWrite),
         .ImmSrc(ImmSrc),
         .MemWrite(MemWrite),
@@ -33,6 +34,7 @@ module Control_Unit_Top_20(
     ALU_Decoder_20 ALU_Decoder(
         .ALUOp(ALUOp),
         .op(op),
+		  
         .ALUControl(ALUControl)
     );
 
