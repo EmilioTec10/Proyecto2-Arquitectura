@@ -4,26 +4,28 @@ module execute_cycle(clk, rst, RegWriteE, ALUSrcE, MemWriteE, ResultSrcE, Branch
     // Declaration I/Os
     input clk, rst, RegWriteE,ALUSrcE,MemWriteE,ResultSrcE,BranchE;
     input [2:0] ALUControlE;
-    input [31:0] RD1_E, RD2_E, Imm_Ext_E;
+    input [20:0] RD1_E, RD2_E, Imm_Ext_E;
     input [4:0] RD_E;
-    input [31:0] PCE, PCPlus4E;
-    input [31:0] ResultW;
+    input [20:0] PCE, PCPlus4E;
+    input [20:0] ResultW;
     input [1:0] ForwardA_E, ForwardB_E;
 
     output PCSrcE, RegWriteM, MemWriteM, ResultSrcM;
     output [4:0] RD_M; 
-    output [31:0] PCPlus4M, WriteDataM, ALU_ResultM;
-    output [31:0] PCTargetE;
+    output [20:0] PCPlus4M, WriteDataM;
+	 output [20:0] ALU_ResultM;
+    output [20:0] PCTargetE;
 
     // Declaration of Interim Wires
-    wire [31:0] Src_A, Src_B_interim, Src_B;
-    wire [31:0] ResultE;
+    wire [20:0] Src_A, Src_B_interim, Src_B;
+    wire [20:0] ResultE;
     wire ZeroE;
 
     // Declaration of Register
     reg RegWriteE_r, MemWriteE_r, ResultSrcE_r;
     reg [4:0] RD_E_r;
-    reg [31:0] PCPlus4E_r, RD2_E_r, ResultE_r;
+    reg [20:0] PCPlus4E_r, RD2_E_r;
+	 reg [20:0] ResultE_r;
 
     // Declaration of Modules
     // 3 by 1 Mux for Source A
@@ -77,9 +79,9 @@ module execute_cycle(clk, rst, RegWriteE, ALUSrcE, MemWriteE, ResultSrcE, Branch
             MemWriteE_r <= 1'b0; 
             ResultSrcE_r <= 1'b0;
             RD_E_r <= 5'h00;
-            PCPlus4E_r <= 32'h00000000; 
-            RD2_E_r <= 32'h00000000; 
-            ResultE_r <= 32'h00000000;
+            PCPlus4E_r <= 21'd0; 
+            RD2_E_r <= 21'd0; 
+            ResultE_r <= 21'd0;
         end
         else begin
             RegWriteE_r <= RegWriteE; 
