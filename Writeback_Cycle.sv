@@ -1,10 +1,13 @@
-module writeback_cycle(clk, rst, ResultSrcW, PCPlus4W, ALU_ResultW, ReadDataW, ResultW);
+module writeback_cycle(
+	input clk, 
+	input rst, 
+	input ResultSrcW, 
+	input [20:0] PCPlus4W, 
+	input [20:0] ALU_ResultW, 
+	input [20:0] ReadDataW, 
+	output [20:0]ResultW
+);
 
-// Declaration of IOs
-input clk, rst, ResultSrcW;
-input [31:0] PCPlus4W, ALU_ResultW, ReadDataW;
-
-output [31:0] ResultW;
 
 // Declaration of Module
 Mux result_mux (    
