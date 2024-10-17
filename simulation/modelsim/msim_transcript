@@ -1,0 +1,185 @@
+# Reading pref.tcl
+# do pipeline_run_msim_rtl_verilog.do
+# if {[file exists rtl_work]} {
+# 	vdel -lib rtl_work -all
+# }
+# vlib rtl_work
+# vmap work rtl_work
+# Model Technology ModelSim - Intel FPGA Edition vmap 2020.1 Lib Mapping Utility 2020.02 Feb 28 2020
+# vmap work rtl_work 
+# Copying D:/intelFPGA_lite/20.1/modelsim_ase/win32aloem/../modelsim.ini to modelsim.ini
+# Modifying modelsim.ini
+# 
+# vlog -vlog01compat -work work +incdir+D:/TEC/VIII\ Semestre/Arquitectura\ de\ Computadores\ I/Proyecto2-Arquitectura {D:/TEC/VIII Semestre/Arquitectura de Computadores I/Proyecto2-Arquitectura/instruction_memory.v}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 05:10:33 on Oct 17,2024
+# vlog -reportprogress 300 -vlog01compat -work work "+incdir+D:/TEC/VIII Semestre/Arquitectura de Computadores I/Proyecto2-Arquitectura" D:/TEC/VIII Semestre/Arquitectura de Computadores I/Proyecto2-Arquitectura/instruction_memory.v 
+# -- Compiling module instruction_memory
+# 
+# Top level modules:
+# 	instruction_memory
+# End time: 05:10:33 on Oct 17,2024, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vlog -sv -work work +incdir+D:/TEC/VIII\ Semestre/Arquitectura\ de\ Computadores\ I/Proyecto2-Arquitectura {D:/TEC/VIII Semestre/Arquitectura de Computadores I/Proyecto2-Arquitectura/fetch_cycle.sv}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 05:10:34 on Oct 17,2024
+# vlog -reportprogress 300 -sv -work work "+incdir+D:/TEC/VIII Semestre/Arquitectura de Computadores I/Proyecto2-Arquitectura" D:/TEC/VIII Semestre/Arquitectura de Computadores I/Proyecto2-Arquitectura/fetch_cycle.sv 
+# -- Compiling module fetch_cycle
+# 
+# Top level modules:
+# 	fetch_cycle
+# End time: 05:10:34 on Oct 17,2024, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# 
+# vlog -sv -work work +incdir+D:/TEC/VIII\ Semestre/Arquitectura\ de\ Computadores\ I/Proyecto2-Arquitectura {D:/TEC/VIII Semestre/Arquitectura de Computadores I/Proyecto2-Arquitectura/fetch_cycle_tb.sv}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 05:10:34 on Oct 17,2024
+# vlog -reportprogress 300 -sv -work work "+incdir+D:/TEC/VIII Semestre/Arquitectura de Computadores I/Proyecto2-Arquitectura" D:/TEC/VIII Semestre/Arquitectura de Computadores I/Proyecto2-Arquitectura/fetch_cycle_tb.sv 
+# -- Compiling module fetch_cycle_tb
+# 
+# Top level modules:
+# 	fetch_cycle_tb
+# End time: 05:10:34 on Oct 17,2024, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# 
+# vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cyclonev_ver -L cyclonev_hssi_ver -L cyclonev_pcie_hip_ver -L rtl_work -L work -voptargs="+acc"  fetch_cycle_tb
+# vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cyclonev_ver -L cyclonev_hssi_ver -L cyclonev_pcie_hip_ver -L rtl_work -L work -voptargs=""+acc"" fetch_cycle_tb 
+# Start time: 05:10:34 on Oct 17,2024
+# Loading sv_std.std
+# Loading work.fetch_cycle_tb
+# Loading work.fetch_cycle
+# Loading work.instruction_memory
+# ** Error (suppressible): (vsim-3009) [TSCALE] - Module 'fetch_cycle_tb' does not have a timeunit/timeprecision specification in effect, but other modules do.
+#    Time: 0 ps  Iteration: 0  Instance: /fetch_cycle_tb/fetch_cycle/IMEM File: D:/TEC/VIII Semestre/Arquitectura de Computadores I/Proyecto2-Arquitectura/instruction_memory.v
+# Loading altera_mf_ver.altsyncram
+# Error loading design
+# Error: Error loading design
+#        Pausing macro execution
+# MACRO ./pipeline_run_msim_rtl_verilog.do PAUSED at line 13
+vlog -work {$MODEL_TECH/../altera/verilog/altera_mf} -refresh -force_refresh
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 05:12:33 on Oct 17,2024
+# vlog -reportprogress 300 -work $MODEL_TECH/../altera/verilog/altera_mf -refresh -force_refresh 
+# ** Error: (vlog-66) Execution of vlib.exe failed. Please check the error log for more details.
+# End time: 05:12:34 on Oct 17,2024, Elapsed time: 0:00:01
+# Errors: 1, Warnings: 0
+# D:/intelFPGA_lite/20.1/modelsim_ase/win32aloem/vlog failed.
+vcom -work {$MODEL_TECH/../altera/verilog/altera_mf} -refresh -force_refresh
+# Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 05:12:34 on Oct 17,2024
+# vcom -reportprogress 300 -work $MODEL_TECH/../altera/verilog/altera_mf -refresh -force_refresh 
+# ** Error: (vcom-66) Execution of vlib.exe failed. Please check the error log for more details.
+# End time: 05:12:34 on Oct 17,2024, Elapsed time: 0:00:00
+# Errors: 1, Warnings: 0
+# D:/intelFPGA_lite/20.1/modelsim_ase/win32aloem/vcom failed.
+vlog -work {$MODEL_TECH/../altera/vhdl/altera_mf} -refresh -force_refresh
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 05:12:44 on Oct 17,2024
+# vlog -reportprogress 300 -work $MODEL_TECH/../altera/vhdl/altera_mf -refresh -force_refresh 
+# ** Error: (vlog-66) Execution of vlib.exe failed. Please check the error log for more details.
+# End time: 05:12:44 on Oct 17,2024, Elapsed time: 0:00:00
+# Errors: 1, Warnings: 0
+# D:/intelFPGA_lite/20.1/modelsim_ase/win32aloem/vlog failed.
+vcom -work {$MODEL_TECH/../altera/vhdl/altera_mf} -refresh -force_refresh
+# Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 05:12:44 on Oct 17,2024
+# vcom -reportprogress 300 -work $MODEL_TECH/../altera/vhdl/altera_mf -refresh -force_refresh 
+# ** Error: (vcom-66) Execution of vlib.exe failed. Please check the error log for more details.
+# End time: 05:12:45 on Oct 17,2024, Elapsed time: 0:00:01
+# Errors: 1, Warnings: 0
+# D:/intelFPGA_lite/20.1/modelsim_ase/win32aloem/vcom failed.
+vlog -work {$MODEL_TECH/../altera/verilog/altera_mf} -refresh -force_refresh
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 05:12:52 on Oct 17,2024
+# vlog -reportprogress 300 -work $MODEL_TECH/../altera/verilog/altera_mf -refresh -force_refresh 
+# ** Error: (vlog-66) Execution of vlib.exe failed. Please check the error log for more details.
+# End time: 05:12:52 on Oct 17,2024, Elapsed time: 0:00:00
+# Errors: 1, Warnings: 0
+# D:/intelFPGA_lite/20.1/modelsim_ase/win32aloem/vlog failed.
+vcom -work {$MODEL_TECH/../altera/verilog/altera_mf} -refresh -force_refresh
+# Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 05:12:52 on Oct 17,2024
+# vcom -reportprogress 300 -work $MODEL_TECH/../altera/verilog/altera_mf -refresh -force_refresh 
+# ** Error: (vcom-66) Execution of vlib.exe failed. Please check the error log for more details.
+# End time: 05:12:52 on Oct 17,2024, Elapsed time: 0:00:00
+# Errors: 1, Warnings: 0
+# D:/intelFPGA_lite/20.1/modelsim_ase/win32aloem/vcom failed.
+vlog -sv -work work {+incdir+D:/TEC/VIII Semestre/Arquitectura de Computadores I/Proyecto2-Arquitectura} {D:/TEC/VIII Semestre/Arquitectura de Computadores I/Proyecto2-Arquitectura/fetch_cycle.sv}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 05:13:43 on Oct 17,2024
+# vlog -reportprogress 300 -sv -work work "+incdir+D:/TEC/VIII Semestre/Arquitectura de Computadores I/Proyecto2-Arquitectura" D:/TEC/VIII Semestre/Arquitectura de Computadores I/Proyecto2-Arquitectura/fetch_cycle.sv 
+# -- Compiling module fetch_cycle
+# 
+# Top level modules:
+# 	fetch_cycle
+# End time: 05:13:43 on Oct 17,2024, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -sv -work work {+incdir+D:/TEC/VIII Semestre/Arquitectura de Computadores I/Proyecto2-Arquitectura} {D:/TEC/VIII Semestre/Arquitectura de Computadores I/Proyecto2-Arquitectura/fetch_cycle_tb.sv}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 05:13:46 on Oct 17,2024
+# vlog -reportprogress 300 -sv -work work "+incdir+D:/TEC/VIII Semestre/Arquitectura de Computadores I/Proyecto2-Arquitectura" D:/TEC/VIII Semestre/Arquitectura de Computadores I/Proyecto2-Arquitectura/fetch_cycle_tb.sv 
+# -- Compiling module fetch_cycle_tb
+# 
+# Top level modules:
+# 	fetch_cycle_tb
+# End time: 05:13:46 on Oct 17,2024, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim work.fetch_cycle_tb
+# vsim work.fetch_cycle_tb 
+# Start time: 05:10:34 on Oct 17,2024
+# Loading sv_std.std
+# Loading work.fetch_cycle_tb
+# Loading work.fetch_cycle
+# Loading work.instruction_memory
+# ** Error (suppressible): (vsim-3009) [TSCALE] - Module 'fetch_cycle_tb' does not have a timeunit/timeprecision specification in effect, but other modules do.
+#    Time: 0 ps  Iteration: 0  Instance: /fetch_cycle_tb/fetch_cycle/IMEM File: D:/TEC/VIII Semestre/Arquitectura de Computadores I/Proyecto2-Arquitectura/instruction_memory.v
+# ** Error: (vsim-3033) Instantiation of 'altsyncram' failed. The design unit was not found.
+#    Time: 0 ps  Iteration: 0  Instance: /fetch_cycle_tb/fetch_cycle/IMEM File: D:/TEC/VIII Semestre/Arquitectura de Computadores I/Proyecto2-Arquitectura/instruction_memory.v Line: 59
+#         Searched libraries:
+#             D:/TEC/VIII Semestre/Arquitectura de Computadores I/Proyecto2-Arquitectura/simulation/modelsim/rtl_work
+# Error loading design
+# Error: Error loading design
+#        Pausing macro execution
+# MACRO ./pipeline_run_msim_rtl_verilog.do PAUSED at line 13
+vsim work.fetch_cycle_tb -L altera_mf_ver
+# vsim work.fetch_cycle_tb -L altera_mf_ver 
+# Start time: 05:10:34 on Oct 17,2024
+# Loading sv_std.std
+# Loading work.fetch_cycle_tb
+# Loading work.fetch_cycle
+# Loading work.instruction_memory
+# ** Error (suppressible): (vsim-3009) [TSCALE] - Module 'fetch_cycle_tb' does not have a timeunit/timeprecision specification in effect, but other modules do.
+#    Time: 0 ps  Iteration: 0  Instance: /fetch_cycle_tb/fetch_cycle/IMEM File: D:/TEC/VIII Semestre/Arquitectura de Computadores I/Proyecto2-Arquitectura/instruction_memory.v
+# Loading altera_mf_ver.altsyncram
+# Error loading design
+# Error: Error loading design
+#        Pausing macro execution
+# MACRO ./pipeline_run_msim_rtl_verilog.do PAUSED at line 13
+vsim work.instruction_memory
+# vsim work.instruction_memory 
+# Start time: 05:10:34 on Oct 17,2024
+# Loading work.instruction_memory
+# ** Error: (vsim-3033) Instantiation of 'altsyncram' failed. The design unit was not found.
+#    Time: 0 ps  Iteration: 0  Instance: /instruction_memory File: D:/TEC/VIII Semestre/Arquitectura de Computadores I/Proyecto2-Arquitectura/instruction_memory.v Line: 59
+#         Searched libraries:
+#             D:/TEC/VIII Semestre/Arquitectura de Computadores I/Proyecto2-Arquitectura/simulation/modelsim/rtl_work
+# Error loading design
+# Error: Error loading design
+#        Pausing macro execution
+# MACRO ./pipeline_run_msim_rtl_verilog.do PAUSED at line 13
+vsim work.fetch_cycle_tb -Lf altera_mf_ver
+# vsim work.fetch_cycle_tb -Lf altera_mf_ver 
+# Start time: 05:10:34 on Oct 17,2024
+# Loading sv_std.std
+# Loading work.fetch_cycle_tb
+# Loading work.fetch_cycle
+# Loading work.instruction_memory
+# ** Error (suppressible): (vsim-3009) [TSCALE] - Module 'fetch_cycle_tb' does not have a timeunit/timeprecision specification in effect, but other modules do.
+#    Time: 0 ps  Iteration: 0  Instance: /fetch_cycle_tb/fetch_cycle/IMEM File: D:/TEC/VIII Semestre/Arquitectura de Computadores I/Proyecto2-Arquitectura/instruction_memory.v
+# Loading altera_mf_ver.altsyncram
+# Error loading design
+# Error: Error loading design
+#        Pausing macro execution
+# MACRO ./pipeline_run_msim_rtl_verilog.do PAUSED at line 13
+# End time: 05:21:47 on Oct 17,2024, Elapsed time: 0:11:13
+# Errors: 6, Warnings: 0

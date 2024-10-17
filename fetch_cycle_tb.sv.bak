@@ -1,6 +1,6 @@
 module fetch_cycle_tb;
-	logic clk, rst, PCSrcE;
-	logic [8:0] PCTargetE, PCD, PCPlus4D;
+	logic clk, rst, PCSrcsE;
+	logic [8:0] PCTarget, PCD, PCPlus4d;
 	logic [33:0] InstrD;
 	
 
@@ -9,15 +9,6 @@ module fetch_cycle_tb;
 	initial begin
 		clk = 0;
 		forever #1 clk = ~clk;
-	end
-	
-	initial begin
-		#50;
-		rst <= 1'b1;
-		PCSrcE <= 1'b1;
-		PCTargetE <= 34'b0;
-		#100;
-		$finish;
 	end
 
 endmodule

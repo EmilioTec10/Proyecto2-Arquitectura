@@ -4,7 +4,7 @@
 // MODULE: altsyncram 
 
 // ============================================================
-// File Name: Instruction_Memory.v
+// File Name: instruction_memory.v
 // Megafunction Name(s):
 // 			altsyncram
 //
@@ -37,7 +37,7 @@
 // synopsys translate_off
 `timescale 1 ps / 1 ps
 // synopsys translate_on
-module Instruction_Memory (
+module instruction_memory (
 	address,
 	clock,
 	q);
@@ -129,7 +129,7 @@ endmodule
 // Retrieval info: PRIVATE: RAM_BLOCK_TYPE NUMERIC "0"
 // Retrieval info: PRIVATE: RegAddr NUMERIC "1"
 // Retrieval info: PRIVATE: RegOutput NUMERIC "1"
-// Retrieval info: PRIVATE: SYNTH_WRAPPER_GEN_POSTFIX STRING "1"
+// Retrieval info: PRIVATE: SYNTH_WRAPPER_GEN_POSTFIX STRING "0"
 // Retrieval info: PRIVATE: SingleClock NUMERIC "1"
 // Retrieval info: PRIVATE: UseDQRAM NUMERIC "0"
 // Retrieval info: PRIVATE: WidthAddr NUMERIC "9"
@@ -156,11 +156,10 @@ endmodule
 // Retrieval info: CONNECT: @address_a 0 0 9 0 address 0 0 9 0
 // Retrieval info: CONNECT: @clock0 0 0 0 0 clock 0 0 0 0
 // Retrieval info: CONNECT: q 0 0 34 0 @q_a 0 0 34 0
-// Retrieval info: GEN_FILE: TYPE_NORMAL Instruction_Memory.v TRUE
-// Retrieval info: GEN_FILE: TYPE_NORMAL Instruction_Memory.inc FALSE
-// Retrieval info: GEN_FILE: TYPE_NORMAL Instruction_Memory.cmp FALSE
-// Retrieval info: GEN_FILE: TYPE_NORMAL Instruction_Memory.bsf FALSE
-// Retrieval info: GEN_FILE: TYPE_NORMAL Instruction_Memory_inst.v FALSE
-// Retrieval info: GEN_FILE: TYPE_NORMAL Instruction_Memory_bb.v TRUE
-// Retrieval info: GEN_FILE: TYPE_NORMAL Instruction_Memory_syn.v TRUE
+// Retrieval info: GEN_FILE: TYPE_NORMAL instruction_memory.v TRUE
+// Retrieval info: GEN_FILE: TYPE_NORMAL instruction_memory.inc FALSE
+// Retrieval info: GEN_FILE: TYPE_NORMAL instruction_memory.cmp FALSE
+// Retrieval info: GEN_FILE: TYPE_NORMAL instruction_memory.bsf FALSE
+// Retrieval info: GEN_FILE: TYPE_NORMAL instruction_memory_inst.v FALSE
+// Retrieval info: GEN_FILE: TYPE_NORMAL instruction_memory_bb.v FALSE
 // Retrieval info: LIB_FILE: altera_mf
