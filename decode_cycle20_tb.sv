@@ -1,106 +1,119 @@
-module decode_cycle20_tb; 
+module decode_cycle20_tb;
 
+    // Entradas
+    reg clk;
+    reg rst;
+    reg RegWriteW;
+    reg [4:0] RDW;
+    reg [33:0] InstrD;
+    reg [23:0] PCD;
+    reg [23:0] PCPlus4D;
+    reg [23:0] ResultW;
 
+    // Salidas
+    wire RegWriteE;
+    wire ALUSrcE;
+    wire MemWriteE;
+    wire ResultSrcE;
+    wire BranchE;
+    wire [2:0] ALUControlE;
+    wire [23:0] RD1_E;
+    wire [23:0] RD2_E;
+    wire [23:0] Imm_Ext_E;
+    wire [4:0] RS1_E;
+    wire [4:0] RS2_E;
+    wire [4:0] RD_E;
+    wire [23:0] PCE;
+    wire [23:0] PCPlus4E;
 
+    // Instancia del DUT (Device Under Test)
+    decode_cycle_20 uut (
+        .clk(clk),
+        .rst(rst),
+        .RegWriteW(RegWriteW),
+        .RDW(RDW),
+        .InstrD(InstrD),
+        .PCD(PCD),
+        .PCPlus4D(PCPlus4D),
+        .ResultW(ResultW),
+        .RegWriteE(RegWriteE),
+        .ALUSrcE(ALUSrcE),
+        .MemWriteE(MemWriteE),
+        .ResultSrcE(ResultSrcE),
+        .BranchE(BranchE),
+        .ALUControlE(ALUControlE),
+        .RD1_E(RD1_E),
+        .RD2_E(RD2_E),
+        .Imm_Ext_E(Imm_Ext_E),
+        .RS1_E(RS1_E),
+        .RS2_E(RS2_E),
+        .RD_E(RD_E),
+        .PCE(PCE),
+        .PCPlus4E(PCPlus4E)
+    );
 
-	 logic clk, rst, RegWriteW;
-    logic [4:0] RDW;
-    logic [19:0] InstrD; // Instrucción de 20 bits
-    logic [21:0] PCD, PCPlus4D; // PC ajustado a 22 bits
-    logic [21:0] ResultW;
-    
-    logic RegWriteE, ALUSrcE, MemWriteE, ResultSrcE, BranchE;
-    logic [2:0] ALUControlE;
-    logic [21:0] RD1_E, RD2_E, Imm_Ext_E;
-    logic [4:0] RS1_E, RS2_E, RD_E;
-    logic [21:0] PCE, PCPlus4E;
+    // Generar el reloj
+    always #5 clk = ~clk;
 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 
-	 decode_cycle_20 uut(
-    .clk(clk), 
-	 .rst(rst), 
-	 .RegWriteW(RegWriteW),
-    .RDW(RDW),
-    .InstrD(InstrD), // Instrucción de 20 bits
-    .PCD(PCD), 
-	 .PCPlus4D(PCPlus4D), // PC ajustado a 22 bits
-    .ResultW(Resultw),
-    
-    .RegWriteE(RegWriteE),
-	 .ALUSrcE(ALUSrcE),
-	 .MemWriteE(MemWriteE),
-	 .ResultSrcE(ResultSrcE),
-	 .BranchE(BranchE),
-    .ALUControlE(ALUControlE),
-    .RD1_E(RD1_E),
-	 .RD2_E(RD2_E),
-	 .Imm_Ext_E(Imm_Ext_E),
-    .RS1_E(RS1_E),
-	 .RS2_E(RS2_E),
-	 .RD_E(RD_E),
-    .PCE(PCE),
-	 .PCPlus4E(PCPlus4E)
-);
-	 
-
-    // Generación de la señal de reloj
-    always #5 clk = ~clk;  // Reloj de 10 unidades de tiempo (5 para cada fase)
-
-    // Procedimiento inicial
     initial begin
-        // Inicialización de señales
+        // Inicialización
         clk = 0;
         rst = 1;
         RegWriteW = 0;
-        RDW = 0;
-        InstrD = 0;
-        PCD = 0;
-        PCPlus4D = 0;
-        ResultW = 0;
+        RDW = 5'b00000;
+        InstrD = 34'b0;
+        PCD = 24'b0;
+        PCPlus4D = 24'b0;
+        ResultW = 24'b0;
 
-        // Aplicar reset
-        #10 rst = 0;  // Liberar reset después de 10 unidades de tiempo
-        #10 rst = 1;  // Quitar reset
+        // Reset del sistema
+        #10 rst = 0; // Desactivar reset
+        #10 rst = 1; // Activar sistema
 
-        // Caso de prueba 1: Cargar una instrucción ficticia y valores iniciales
-        // Ejemplo: Instrucción tipo R (suma en la ISA de 20 bits)
-        InstrD = 20'b0001_00000_00001_00010; // Operación ficticia
-        PCD = 22'h0001A;  // PC en alguna dirección ficticia
-        PCPlus4D = PCD + 22'h4;  // PC + 4
-        ResultW = 22'h0000F; // Resultado ficticio de la ALU de una etapa anterior
+        // Caso 1: Instrucción tipo ALU (por ejemplo, suma)
+        InstrD = 34'b0010000100010000010000100000000001; // Supongamos que esta instrucción es una suma
+        PCD = 24'h000004; 
+        PCPlus4D = 24'h000008;
+        ResultW = 24'h000001; // Resultado que se escribirá en el register file
+        RDW = 5'b00001;       // Registro destino 1
+        RegWriteW = 1'b1;     // Habilitar escritura en registro
+        #10;  // Esperar un ciclo
 
-        #20;  // Esperar 20 unidades de tiempo
+        // Caso 2: Instrucción de memoria (carga)
+        InstrD = 34'b0001001100010101010000000000000100; // Supongamos que esta es una instrucción de carga
+        PCD = 24'h00000C; 
+        PCPlus4D = 24'h000010;
+        ResultW = 24'h000002; // Otro resultado
+        RDW = 5'b00010;       // Registro destino 2
+        RegWriteW = 1'b1;     // Habilitar escritura en registro
+        #10;  // Esperar un ciclo
 
-        // Verificar las salidas esperadas para el caso de prueba
-        $display("Test 1: InstrD = %b", InstrD);
-        $display("RD1_E = %h, RD2_E = %h", RD1_E, RD2_E);
-        $display("Imm_Ext_E = %h", Imm_Ext_E);
-        $display("ALUControlE = %b", ALUControlE);
+        // Caso 3: Instrucción de rama (salto condicional)
+        InstrD = 34'b0110001100001110000000000000000110; // Instrucción de salto condicional
+        PCD = 24'h000014; 
+        PCPlus4D = 24'h000018;
+        ResultW = 24'h000003; // Resultado de un cálculo previo
+        RDW = 5'b00011;       // Registro destino 3
+        RegWriteW = 1'b1;     // Habilitar escritura en registro
+        #10;  // Esperar un ciclo
 
-        // Caso de prueba 2: Cambiar la instrucción
-        InstrD = 20'b0010_00011_00001_00100; // Otra instrucción ficticia
-        PCD = 22'h00020;  // PC en una nueva dirección
-        PCPlus4D = PCD + 22'h4;  // PC + 4
-
-        #20;  // Esperar 20 unidades de tiempo
-
-        // Verificar las salidas esperadas para el segundo caso de prueba
-        $display("Test 2: InstrD = %b", InstrD);
-        $display("RD1_E = %h, RD2_E = %h", RD1_E, RD2_E);
-        $display("Imm_Ext_E = %h", Imm_Ext_E);
-        $display("ALUControlE = %b", ALUControlE);
+        // Caso 4: Instrucción de inmediato
+        InstrD = 34'b1001000100001000000000000011111111; // Inmediato tipo
+        PCD = 24'h000020; 
+        PCPlus4D = 24'h000024;
+        ResultW = 24'h000004; // Otro resultado de inmediato
+        RDW = 5'b00100;       // Registro destino 4
+        RegWriteW = 1'b1;     // Habilitar escritura en registro
+        #10;  // Esperar un ciclo
 
         // Finalizar la simulación
-        #100 $finish;
+        $finish;
     end
-	 
-	 
-	 
-endmodule 
+
+    // Monitor para observar las señales
+    initial begin
+        $monitor("Time=%0t, InstrD=%b, RegWriteE=%b, ALUSrcE=%b, MemWriteE=%b, ResultSrcE=%b, BranchE=%b, ALUControlE=%b, RD1_E=%h, RD2_E=%h, Imm_Ext_E=%h, RS1_E=%b, RS2_E=%b, RD_E=%b, PCE=%h, PCPlus4E=%h", 
+                  $time, InstrD, RegWriteE, ALUSrcE, MemWriteE, ResultSrcE, BranchE, ALUControlE, RD1_E, RD2_E, Imm_Ext_E, RS1_E, RS2_E, RD_E, PCE, PCPlus4E);
+    end
+
+endmodule
