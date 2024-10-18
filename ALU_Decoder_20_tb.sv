@@ -8,7 +8,7 @@ module ALU_Decoder_20_tb;
     wire [2:0] ALUControl; // Señales de control de la ALU
 
     // Instancia del módulo bajo prueba (DUT)
-    ALU_Decoder_20 uut (
+    ALU_Decoder uut (
         .ALUOp(ALUOp),
         .op(op),
         .ALUControl(ALUControl)

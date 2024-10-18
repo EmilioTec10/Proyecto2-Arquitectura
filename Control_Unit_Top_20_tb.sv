@@ -15,7 +15,7 @@ module Control_Unit_Top_20_tb;
     wire [2:0] ALUControl; // Señales de control para la ALU
 
     // Instancia de la unidad de control bajo prueba (DUT)
-    Control_Unit_Top_20 uut (
+    Control_Unit_Top uut (
         .tipo(tipo),
         .op(op),
         .Inm(Inm),

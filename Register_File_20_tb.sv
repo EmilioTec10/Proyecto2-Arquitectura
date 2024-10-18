@@ -8,7 +8,7 @@ module Register_File_20_tb;
     wire [33:0] RD1, RD2;
 
     // Instanciar el registro bajo prueba
-    Register_File_20 uut (
+    Register_File uut (
         .clk(clk),
         .rst(rst),
         .WE3(WE3),

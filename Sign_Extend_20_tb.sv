@@ -5,7 +5,7 @@ module Sign_Extend_20_tb;
     wire [23:0] Imm_Ext;   // Salida de inmediato extendido
 
     // Instancia del módulo a probar
-    Sign_Extend_20 uut (
+    Sign_Extend uut (
         .In(In),
         .ImmSrc(ImmSrc),
         .Imm_Ext(Imm_Ext)

@@ -27,7 +27,7 @@ module decode_cycle20_tb;
     wire [23:0] PCPlus4E;
 
     // Instancia del DUT (Device Under Test)
-    decode_cycle_20 uut (
+    decode_cycle uut (
         .clk(clk),
         .rst(rst),
         .RegWriteW(RegWriteW),
