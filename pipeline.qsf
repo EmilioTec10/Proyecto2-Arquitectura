@@ -93,7 +93,6 @@ set_global_assignment -name VERILOG_FILE Instruction_Memory_syn.v
 set_global_assignment -name VERILOG_FILE Instruction_Memory_bb.v
 set_global_assignment -name SYSTEMVERILOG_FILE Fetch_Cycle.sv
 set_global_assignment -name SYSTEMVERILOG_FILE Mux.sv
-set_global_assignment -name SYSTEMVERILOG_FILE PC_Adder.sv
 set_global_assignment -name SYSTEMVERILOG_FILE PC_Module.sv
 set_global_assignment -name SYSTEMVERILOG_FILE ALU.sv
 set_global_assignment -name SYSTEMVERILOG_FILE ALU_Decoder.sv

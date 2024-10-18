@@ -1,8 +1,8 @@
 module Fetch_Cycle_tb();
 	
 	reg clk=1, rst, PCSrcsE;
-	reg [19:0] PCTargetE;
-	wire [19:0] InstrD, PCD, PCPlus4d;
+	reg [33:0] PCTargetE;
+	wire [8:0] InstrD, PCD, PCPlus4d;
 
 	fetch_cycle Fetch_cycle (
 									.clk(clk),
@@ -24,7 +24,7 @@ module Fetch_Cycle_tb();
 	#200;
 	rst <= 1'b1;
 	PCSrcsE <= 1'b1;
-	PCTargetE <= 20'b0;
+	PCTargetE <= 34'b0;
 	#500;
 	$finish;
 	end
