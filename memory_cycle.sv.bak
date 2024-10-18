@@ -1,0 +1,11 @@
+module memory_cycle(
+	input logic clk, rst, RegWriteM, MemWriteM, ResultSrcM,
+	input logic [4:0] RD_M, // Seguramente tenga q cambiar con el isa
+	input logic [8:0] PCPlus4M, ALU_ResultM,
+	input logic [33:0] WriteDataM, 
+	);
+	
+	logic [33:0] ReadDataM;
+	
+
+endmodule

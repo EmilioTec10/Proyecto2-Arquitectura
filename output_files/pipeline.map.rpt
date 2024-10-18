@@ -1,5 +1,5 @@
 Analysis & Elaboration report for pipeline
-Thu Oct 17 05:10:24 2024
+Thu Oct 17 18:45:55 2024
 Quartus Prime Version 20.1.0 Build 711 06/05/2020 SJ Lite Edition
 
 
@@ -41,7 +41,7 @@ https://fpgasoftware.intel.com/eula.
 +-----------------------------------------------------------------------------+
 ; Analysis & Elaboration Summary                                              ;
 +-------------------------------+---------------------------------------------+
-; Analysis & Elaboration Status ; Successful - Thu Oct 17 05:10:24 2024       ;
+; Analysis & Elaboration Status ; Successful - Thu Oct 17 18:45:55 2024       ;
 ; Quartus Prime Version         ; 20.1.0 Build 711 06/05/2020 SJ Lite Edition ;
 ; Revision Name                 ; pipeline                                    ;
 ; Top-level Entity Name         ; fetch_cycle                                 ;
@@ -264,7 +264,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Elaboration
     Info: Version 20.1.0 Build 711 06/05/2020 SJ Lite Edition
-    Info: Processing started: Thu Oct 17 05:10:18 2024
+    Info: Processing started: Thu Oct 17 18:45:49 2024
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off pipeline -c pipeline --analysis_and_elaboration
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 12 of the 12 processors detected
@@ -274,6 +274,8 @@ Info (12021): Found 1 design units, including 1 entities, in source file instruc
     Info (12023): Found entity 1: instruction_memory File: D:/TEC/VIII Semestre/Arquitectura de Computadores I/Proyecto2-Arquitectura/instruction_memory.v Line: 40
 Info (12021): Found 1 design units, including 1 entities, in source file fetch_cycle_tb.sv
     Info (12023): Found entity 1: fetch_cycle_tb File: D:/TEC/VIII Semestre/Arquitectura de Computadores I/Proyecto2-Arquitectura/fetch_cycle_tb.sv Line: 1
+Info (12021): Found 1 design units, including 1 entities, in source file memory_cycle.sv
+    Info (12023): Found entity 1: memory_cycle File: D:/TEC/VIII Semestre/Arquitectura de Computadores I/Proyecto2-Arquitectura/memory_cycle.sv Line: 1
 Info (12127): Elaborating entity "fetch_cycle" for the top level hierarchy
 Info (12128): Elaborating entity "instruction_memory" for hierarchy "instruction_memory:IMEM" File: D:/TEC/VIII Semestre/Arquitectura de Computadores I/Proyecto2-Arquitectura/fetch_cycle.sv Line: 22
 Info (12128): Elaborating entity "altsyncram" for hierarchy "instruction_memory:IMEM|altsyncram:altsyncram_component" File: D:/TEC/VIII Semestre/Arquitectura de Computadores I/Proyecto2-Arquitectura/instruction_memory.v Line: 82
@@ -297,8 +299,8 @@ Info (12021): Found 1 design units, including 1 entities, in source file db/alts
     Info (12023): Found entity 1: altsyncram_3jf1 File: D:/TEC/VIII Semestre/Arquitectura de Computadores I/Proyecto2-Arquitectura/db/altsyncram_3jf1.tdf Line: 28
 Info (12128): Elaborating entity "altsyncram_3jf1" for hierarchy "instruction_memory:IMEM|altsyncram:altsyncram_component|altsyncram_3jf1:auto_generated" File: d:/intelfpga_lite/20.1/quartus/libraries/megafunctions/altsyncram.tdf Line: 792
 Info: Quartus Prime Analysis & Elaboration was successful. 0 errors, 1 warning
-    Info: Peak virtual memory: 4780 megabytes
-    Info: Processing ended: Thu Oct 17 05:10:24 2024
+    Info: Peak virtual memory: 4781 megabytes
+    Info: Processing ended: Thu Oct 17 18:45:55 2024
     Info: Elapsed time: 00:00:06
     Info: Total CPU time (on all processors): 00:00:14
 
