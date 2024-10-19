@@ -36,3 +36,30 @@ module Mux_24b (a,b,s,c);
     assign c = (~s) ? a : b ;
     
 endmodule
+
+module Mux2Parametrizado #(parameter WIDTH = 18) (
+    input [WIDTH-1:0] a, 
+    input [WIDTH-1:0] b, 
+    input s,
+    output [WIDTH-1:0] c
+);
+
+    assign c = (~s) ? a : b;
+
+endmodule
+
+module Mux3Parametrizado #(parameter WIDTH = 18) (
+    input [WIDTH-1:0] a, 
+    input [WIDTH-1:0] b, 
+    input [WIDTH-1:0] c, 
+    input [1:0] s,
+    output [WIDTH-1:0] d
+);
+
+    assign d = (s == 2'b00) ? a : 
+               (s == 2'b01) ? b : 
+               (s == 2'b10) ? c : 
+               {WIDTH{1'b0}};
+    
+endmodule
+
