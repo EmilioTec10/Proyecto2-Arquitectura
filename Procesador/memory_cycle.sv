@@ -1,17 +1,19 @@
 module memory_cycle(
 	input logic clk, rst, RegWriteM, MemWriteM, ResultSrcM,
 	input logic [4:0] RD_M, // Seguramente tenga q cambiar con el isa
-	input logic [8:0] PCPlus4M, ALU_ResultM,
-	input logic [33:0] WriteDataM, 
+	input logic [8:0] PCPlus4M,
+	input logic [17:0] ALU_ResultM, WriteDataM, 
 	output logic RegWriteW, ResultSrcW, 
-	output logic [4:0] RD_W,
-	output logic [33:0] PCPlus4W, ALU_ResultW, ReadDataW
+	output logic [4:0] RD_W, // Seguramente tenga q cambiar con el isa
+	output logic [8:0] PCPlus4W,
+	output logic [17:0] ALU_ResultW, ReadDataW
 	);
 	
-	logic [33:0] ReadDataM;
+	logic [17:0] ReadDataM;
 	logic RegWriteM_reg, ResultSrcM_reg;
-	logic [4:0] RD_M_reg;
-	logic [31:0] PCPlus4M_reg, ALU_ResultM_reg, ReadDataM_reg;	
+	logic [4:0] RD_M_reg; // Seguramente tenga q cambiar con el isa
+	logic [8:0] PCPlus4M_reg;
+	logic [17:0] ALU_ResultM_reg, ReadDataM_reg;	
 
 	Ram ram(
 			.address(ALU_ResultM),
@@ -26,9 +28,9 @@ module memory_cycle(
 			RegWriteM_reg <= 1'b0; 
 			ResultSrcM_reg <= 1'b0;
 			RD_M_reg <= 5'h00;
-			PCPlus4M_reg <= 32'h00000000; 
-			ALU_ResultM_reg <= 32'h00000000; 
-			ReadDataM_reg <= 32'h00000000;
+			PCPlus4M_reg <= 9'h00000000; 
+			ALU_ResultM_reg <= 18'h00000000; 
+			ReadDataM_reg <= 18'h00000000;
 	  end
 	  else begin
 			RegWriteM_reg <= RegWriteM; 
