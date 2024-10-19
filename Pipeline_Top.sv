@@ -35,6 +35,7 @@ module Pipeline_Top(clk, rst);
                         .RegWriteW(RegWriteW), 
                         .RDW(RDW), 
                         .ResultW(ResultW), 
+								
                         .RegWriteE(RegWriteE), 
                         .ALUSrcE(ALUSrcE), 
                         .MemWriteE(MemWriteE), 
@@ -47,6 +48,7 @@ module Pipeline_Top(clk, rst);
                         .RD_E(RD_E), 
                         .PCE(PCE), 
                         .PCPlus4E(PCPlus4E),
+								
                         .RS1_E(RS1_E),
                         .RS2_E(RS2_E)
                     );
@@ -67,6 +69,7 @@ module Pipeline_Top(clk, rst);
                         .RD_E(RD_E), 
                         .PCE(PCE), 
                         .PCPlus4E(PCPlus4E), 
+								
                         .PCSrcE(PCSrcE), 
                         .PCTargetE(PCTargetE), 
                         .RegWriteM(RegWriteM), 

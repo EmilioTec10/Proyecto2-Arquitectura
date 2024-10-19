@@ -1,85 +1,73 @@
 module ALU_tb;
 
-    // Inputs
-    reg [20:0] A, B;
-    reg [1:0] ALUControl;
+  // Entradas del testbench
+  reg [33:0] A;
+  reg [33:0] B;
+  reg [1:0] ALUControl;
+  
+  // Salidas de la ALU
+  wire [33:0] Result;
+  wire OverFlow;
+  wire Carry;
+  wire Zero;
+  wire Negative;
 
-    // Outputs
-    wire [20:0] Result;
-    wire Carry, OverFlow, Zero, Negative;
+  // Instanciación de la ALU
+  ALU uut (
+    .A(A),
+    .B(B),
+    .ALUControl(ALUControl),
+    .Result(Result),
+    .OverFlow(OverFlow),
+    .Carry(Carry),
+    .Zero(Zero),
+    .Negative(Negative)
+  );
 
-    // Instantiate the ALU module
-    ALU alu_uut (
-        .A(A),
-        .B(B),
-        .ALUControl(ALUControl),
-        .Result(Result),
-        .Carry(Carry),
-        .OverFlow(OverFlow),
-        .Zero(Zero),
-        .Negative(Negative)
-    );
+  // Inicialización de la simulación
+  initial begin
+    // Generar el archivo VCD para ver las señales en simulación
+    $dumpfile("tb_ALU.vcd");
+    $dumpvars(0, ALU_tb);
 
-    // Testbench process
-    initial begin
-        // Initialize inputs
-        A = 0;
-        B = 0;
-        ALUControl = 2'b00;
-        #10;
+    // Prueba de suma (ALUControl = 2'b00)
+    A = 34'd10; B = 34'd5; ALUControl = 2'b00;
+    #10;
+    $display("Suma: A = %d, B = %d, Result = %d, Carry = %b, Zero = %b, OverFlow = %b, Negative = %b", A, B, Result, Carry, Zero, OverFlow, Negative);
+    
+    // Prueba de resta (ALUControl = 2'b01)
+    A = 34'd20; B = 34'd15; ALUControl = 2'b01;
+    #10;
+    $display("Resta: A = %d, B = %d, Result = %d, Carry = %b, Zero = %b, OverFlow = %b, Negative = %b", A, B, Result, Carry, Zero, OverFlow, Negative);
+    
+    // Prueba de multiplicación (ALUControl = 2'b10)
+    A = 34'd4; B = 34'd3; ALUControl = 2'b10;
+    #10;
+    $display("Multiplicacion: A = %d, B = %d, Result = %d, Carry = %b, Zero = %b, OverFlow = %b, Negative = %b", A, B, Result, Carry, Zero, OverFlow, Negative);
 
-        // Test case 1: A = 10, B = 5, ALUControl = 00 (Addition)
-        A = 21'd10;
-        B = 21'd5;
-        ALUControl = 2'b00;
-        #10;
-        $display("Addition: A = %d, B = %d, Result = %d, Carry = %b, OverFlow = %b, Zero = %b, Negative = %b", A, B, Result, Carry, OverFlow, Zero, Negative);
+    // Prueba de división (ALUControl = 2'b11)
+    A = 34'd20; B = 34'd5; ALUControl = 2'b11;
+    #10;
+    $display("Division: A = %d, B = %d, Result = %d, Carry = %b, Zero = %b, OverFlow = %b, Negative = %b", A, B, Result, Carry, Zero, OverFlow, Negative);
 
-        // Test case 2: A = 15, B = 5, ALUControl = 01 (Subtraction)
-        A = 21'd15;
-        B = 21'd5;
-        ALUControl = 2'b01;
-        #10;
-        $display("Subtraction: A = %d, B = %d, Result = %d, Carry = %b, OverFlow = %b, Zero = %b, Negative = %b", A, B, Result, Carry, OverFlow, Zero, Negative);
+    // Casos límite - Overflow y Carry
+    // Prueba con números grandes para verificar Overflow y Carry
+    A = 34'h3FFFFFFFF; B = 34'h3FFFFFFFF; ALUControl = 2'b00; // Suma grande
+    #10;
+    $display("Suma grande (Overflow y Carry): A = %h, B = %h, Result = %h, Carry = %b, Zero = %b, OverFlow = %b, Negative = %b", A, B, Result, Carry, Zero, OverFlow, Negative);
+    
+    // Resta con un número negativo
+    A = 34'h7FFFFFFFF; B = 34'h800000000; ALUControl = 2'b01; // Resta que genera un número negativo
+    #10;
+    $display("Resta con negativo: A = %h, B = %h, Result = %h, Carry = %b, Zero = %b, OverFlow = %b, Negative = %b", A, B, Result, Carry, Zero, OverFlow, Negative);
 
-        // Test case 3: A = 3, B = 4, ALUControl = 10 (Multiplication)
-        A = 21'd3;
-        B = 21'd4;
-        ALUControl = 2'b10;
-        #10;
-        $display("Multiplication: A = %d, B = %d, Result = %d, Carry = %b, OverFlow = %b, Zero = %b, Negative = %b", A, B, Result, Carry, OverFlow, Zero, Negative);
-
-        // Test case 4: A = 20, B = 4, ALUControl = 11 (Division)
-        A = 21'd20;
-        B = 21'd4;
-        ALUControl = 2'b11;
-        #10;
-        $display("Division: A = %d, B = %d, Result = %d, Carry = %b, OverFlow = %b, Zero = %b, Negative = %b", A, B, Result, Carry, OverFlow, Zero, Negative);
-
-        // Test case 5: A = -10, B = 10, ALUControl = 00 (Addition with negative number)
-        A = -21'd10;
-        B = 21'd10;
-        ALUControl = 2'b00;
-        #10;
-        $display("Addition with negative: A = %d, B = %d, Result = %d, Carry = %b, OverFlow = %b, Zero = %b, Negative = %b", A, B, Result, Carry, OverFlow, Zero, Negative);
-
-        // Test case 6: A = 0, B = 0, ALUControl = 00 (Zero result)
-        A = 21'd0;
-        B = 21'd0;
-        ALUControl = 2'b00;
-        #10;
-        $display("Zero result: A = %d, B = %d, Result = %d, Carry = %b, OverFlow = %b, Zero = %b, Negative = %b", A, B, Result, Carry, OverFlow, Zero, Negative);
-		  
-		  
-        // Test case 7: A = 524288, B = 524288, ALUControl = 00 (Overflow case)
-        A = 21'd524288;  // Máximo positivo que no causa desbordamiento
-        B = 21'd524288;  // Se espera que la suma cause desbordamiento
-        ALUControl = 2'b00;
-        #10;
-        $display("Overflow case: A = %d, B = %d, Result = %d, Carry = %b, OverFlow = %b, Zero = %b, Negative = %b", A, B, Result, Carry, OverFlow, Zero, Negative);
-			
-        // End of test
-        $stop;
-    end
+    // Prueba de división por 0 (B = 0)
+    A = 34'd50; B = 34'd0; ALUControl = 2'b11;
+    #10;
+    $display("Division por cero: A = %d, B = %d, Result = %d, Carry = %b, Zero = %b, OverFlow = %b, Negative = %b", A, B, Result, Carry, Zero, OverFlow, Negative);
+    
+    // Fin de la simulación
+    $finish;
+  end
 
 endmodule
