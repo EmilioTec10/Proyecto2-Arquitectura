@@ -1,11 +1,12 @@
 module memory_cycle_tb;
 	logic clk, rst, RegWriteM, MemWriteM, ResultSrcM;
 	logic [4:0] RD_M; // Seguramente tenga q cambiar con el isa
-	logic [8:0] PCPlus4M, ALU_ResultM;
-	logic [33:0] WriteDataM;
+	logic [8:0] PCPlus4M;
+	logic [17:0] ALU_ResultM, WriteDataM; 
 	logic RegWriteW, ResultSrcW;
-	logic [4:0] RD_W;
-	logic [33:0] PCPlus4W, ALU_ResultW, ReadDataW;
+	logic [4:0] RD_W; // Seguramente tenga q cambiar con el isa
+	logic [8:0] PCPlus4W;
+	logic [17:0] ALU_ResultW, ReadDataW;
 	
 	timeunit 1ps;
 	
@@ -20,14 +21,13 @@ module memory_cycle_tb;
 		rst <= 1'b0;
 		#10;
 		rst <= 1'b1;
-		ALU_ResultM <= 9'b0;
+		ALU_ResultM <= 18'b0;
 		MemWriteM <= 1'b0;
-		WriteDataM <= 34'b0;
+		WriteDataM <= 18'b0;
 		#10;
-		rst <= 1'b1;
-		ALU_ResultM <= 9'b0;
+		ALU_ResultM <= 18'b0;
 		MemWriteM <= 1'b1;
-		WriteDataM <= 34'b0;
+		WriteDataM <= 18'b0;
 		#10;
 		$finish;
 	end

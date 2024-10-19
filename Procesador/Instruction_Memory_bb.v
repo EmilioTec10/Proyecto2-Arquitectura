@@ -39,7 +39,7 @@ module Instruction_Memory (
 
 	input	[8:0]  address;
 	input	  clock;
-	output	[37:0]  q;
+	output	[32:0]  q;
 `ifndef ALTERA_RESERVED_QIS
 // synopsys translate_off
 `endif
@@ -70,22 +70,22 @@ endmodule
 // Retrieval info: PRIVATE: JTAG_ENABLED NUMERIC "0"
 // Retrieval info: PRIVATE: JTAG_ID STRING "NONE"
 // Retrieval info: PRIVATE: MAXIMUM_DEPTH NUMERIC "0"
-// Retrieval info: PRIVATE: MIFfilename STRING "memfile.hex"
+// Retrieval info: PRIVATE: MIFfilename STRING "./Procesador/memfile.hex"
 // Retrieval info: PRIVATE: NUMWORDS_A NUMERIC "512"
 // Retrieval info: PRIVATE: RAM_BLOCK_TYPE NUMERIC "0"
 // Retrieval info: PRIVATE: RegAddr NUMERIC "1"
 // Retrieval info: PRIVATE: RegOutput NUMERIC "1"
-// Retrieval info: PRIVATE: SYNTH_WRAPPER_GEN_POSTFIX STRING "1"
+// Retrieval info: PRIVATE: SYNTH_WRAPPER_GEN_POSTFIX STRING "0"
 // Retrieval info: PRIVATE: SingleClock NUMERIC "1"
 // Retrieval info: PRIVATE: UseDQRAM NUMERIC "0"
 // Retrieval info: PRIVATE: WidthAddr NUMERIC "9"
-// Retrieval info: PRIVATE: WidthData NUMERIC "38"
+// Retrieval info: PRIVATE: WidthData NUMERIC "33"
 // Retrieval info: PRIVATE: rden NUMERIC "0"
 // Retrieval info: LIBRARY: altera_mf altera_mf.altera_mf_components.all
 // Retrieval info: CONSTANT: ADDRESS_ACLR_A STRING "NONE"
 // Retrieval info: CONSTANT: CLOCK_ENABLE_INPUT_A STRING "BYPASS"
 // Retrieval info: CONSTANT: CLOCK_ENABLE_OUTPUT_A STRING "BYPASS"
-// Retrieval info: CONSTANT: INIT_FILE STRING "memfile.hex"
+// Retrieval info: CONSTANT: INIT_FILE STRING "./Procesador/memfile.hex"
 // Retrieval info: CONSTANT: INTENDED_DEVICE_FAMILY STRING "Cyclone V"
 // Retrieval info: CONSTANT: LPM_HINT STRING "ENABLE_RUNTIME_MOD=NO"
 // Retrieval info: CONSTANT: LPM_TYPE STRING "altsyncram"
@@ -94,19 +94,18 @@ endmodule
 // Retrieval info: CONSTANT: OUTDATA_ACLR_A STRING "NONE"
 // Retrieval info: CONSTANT: OUTDATA_REG_A STRING "CLOCK0"
 // Retrieval info: CONSTANT: WIDTHAD_A NUMERIC "9"
-// Retrieval info: CONSTANT: WIDTH_A NUMERIC "38"
+// Retrieval info: CONSTANT: WIDTH_A NUMERIC "33"
 // Retrieval info: CONSTANT: WIDTH_BYTEENA_A NUMERIC "1"
 // Retrieval info: USED_PORT: address 0 0 9 0 INPUT NODEFVAL "address[8..0]"
 // Retrieval info: USED_PORT: clock 0 0 0 0 INPUT VCC "clock"
-// Retrieval info: USED_PORT: q 0 0 38 0 OUTPUT NODEFVAL "q[37..0]"
+// Retrieval info: USED_PORT: q 0 0 33 0 OUTPUT NODEFVAL "q[32..0]"
 // Retrieval info: CONNECT: @address_a 0 0 9 0 address 0 0 9 0
 // Retrieval info: CONNECT: @clock0 0 0 0 0 clock 0 0 0 0
-// Retrieval info: CONNECT: q 0 0 38 0 @q_a 0 0 38 0
+// Retrieval info: CONNECT: q 0 0 33 0 @q_a 0 0 33 0
 // Retrieval info: GEN_FILE: TYPE_NORMAL Instruction_Memory.v TRUE
 // Retrieval info: GEN_FILE: TYPE_NORMAL Instruction_Memory.inc FALSE
 // Retrieval info: GEN_FILE: TYPE_NORMAL Instruction_Memory.cmp FALSE
 // Retrieval info: GEN_FILE: TYPE_NORMAL Instruction_Memory.bsf FALSE
 // Retrieval info: GEN_FILE: TYPE_NORMAL Instruction_Memory_inst.v FALSE
 // Retrieval info: GEN_FILE: TYPE_NORMAL Instruction_Memory_bb.v TRUE
-// Retrieval info: GEN_FILE: TYPE_NORMAL Instruction_Memory_syn.v TRUE
 // Retrieval info: LIB_FILE: altera_mf

@@ -9,7 +9,8 @@ module Main_Decoder(
     output reg MemWrite,    // Habilitar escritura en memoria
     output reg ResultSrc,   // Selección del resultado (ALU o memoria)
     output reg Branch,      // Indicar si es una instrucción de salto condicional
-    output reg [1:0] ALUOp  // Señal de control para activar la ALU
+    output reg [1:0] ALUOp,  // Señal de control para activar la ALU
+	 output reg [1:0] RGB    //Indica el color que debe acceder a mem
 );
 
     always @(*) begin
@@ -21,6 +22,7 @@ module Main_Decoder(
         ResultSrc  = 0;
         Branch     = 0;
         ALUOp      = 2'b00; // La ALU no se activa por defecto
+		  RGB			 = 2'b00; //ningun color
 
         // Decodificación según el tipo de instrucción
         case (tipo)
@@ -30,7 +32,7 @@ module Main_Decoder(
                 ALUOp = 2'b10; // Activamos la ALU para operaciones aritméticas
             end
 
-            2'b01: begin  // Instrucciones de Transferencia de Datos
+            2'b01: begin  // Instrucciones de lectura de Datos
                 ALUSrc = Inm; // Usamos inmediato si está activado
                 case (op)
                     2'b00: begin // MOV
@@ -41,15 +43,25 @@ module Main_Decoder(
                     2'b01: begin // LDR (load)
                         RegWrite = 1; // Escribimos en registro
                         ResultSrc = 1; // El resultado proviene de memoria
-                        ALUOp = 2'b00; // No activamos la ALU para LDR
+                        ALUOp = 2'b00; // No activamos la ALU para LD
+								RGB = 2'b01; //red
                     end
-                    2'b10: begin // STR (store)
-                        MemWrite = 1; // Escribimos en memoria
-                        RegWrite = 0; // No escribimos en registros
-                        ALUOp = 2'b00; // No activamos la ALU para STR
+                    2'b10: begin //LDG (load)
+                        RegWrite = 1; // Escribimos en registro
+                        ResultSrc = 1; // El resultado proviene de memoria
+                        ALUOp = 2'b00; // No activamos la ALU para LD
+								RGB = 2'b10; //green
+                    end
+						  
+						   2'b11: begin // LDB (load)
+                        RegWrite = 1; // Escribimos en registro
+                        ResultSrc = 1; // El resultado proviene de memoria
+                        ALUOp = 2'b00; // No activamos la ALU para LD
+								RGB = 2'b11; //blue
                     end
                 endcase
             end
+				
 
             2'b10: begin  // Instrucciones de Control de Flujo
                 case (op)
@@ -57,11 +69,41 @@ module Main_Decoder(
                     2'b01: Branch = 1; // Branch_link
                     2'b10: begin // CMP
                         ALUOp = 2'b01; // Activamos la ALU para comparación
-                        RegWrite = 0; // No se escribe en registros
+                        RegWrite = 0; //	 No se escribe en registros
                     end
                     2'b11: Branch = 1; // BEQ (Branch if equal)
                 endcase
             end
+				
+				2'b11: begin  // Instrucciones de escritura de Datos
+					 ALUSrc = Inm;
+                case (op)
+                    2'b00: begin // RET
+								Branch = 1;
+                        RegWrite = 1; // Registro 29
+                        ALUOp = 2'b01; // Se restar el PC al ultimo BL
+                    end
+                    2'b01: begin // STR (store)
+								MemWrite = 1; // Escribimos en memoria
+                        RegWrite = 0; // No escribimos en registros
+                        ALUOp = 2'b00; // No activamos la ALU para STR
+								RGB = 2'b01; //red
+                    end
+                    2'b10: begin // STG (store)
+                        MemWrite = 1; // Escribimos en memoria
+                        RegWrite = 0; // No escribimos en registros
+                        ALUOp = 2'b00; // No activamos la ALU para STR
+								RGB = 2'b10; //green
+                    end
+						  2'b11: begin // STB (store)
+                        MemWrite = 1; // Escribimos en memoria
+                        RegWrite = 0; // No escribimos en registros
+                        ALUOp = 2'b00; // No activamos la ALU para STR
+								RGB = 2'b11; //blue
+                    end
+                endcase
+            end
+				
         endcase
     end
 
