@@ -1,7 +1,4 @@
-module Pipeline_Top(clk, rst);
-
-    // Declaration of I/O
-    input clk, rst;
+module Pipeline_Top(input clk, input rst);
 
     // Declaration of Interim Wires
     wire PCSrcE, RegWriteW, RegWriteE, ALUSrcE, MemWriteE, ResultSrcE, BranchE, RegWriteM, MemWriteM, ResultSrcM, ResultSrcW;

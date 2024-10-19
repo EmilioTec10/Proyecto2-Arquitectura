@@ -4,8 +4,8 @@ module decode_cycle20_tb;
     reg clk;
     reg rst;
     reg RegWriteW;
-    reg [4:0] RDW;
-    reg [33:0] InstrD;
+    reg [3:0] RDW;
+    reg [37:0] InstrD;
     reg [23:0] PCD;
     reg [23:0] PCPlus4D;
     reg [23:0] ResultW;
@@ -60,7 +60,7 @@ module decode_cycle20_tb;
         clk = 0;
         rst = 1;
         RegWriteW = 0;
-        RDW = 5'b00000;
+        RDW = 4'b0000;
         InstrD = 34'b0;
         PCD = 24'b0;
         PCPlus4D = 24'b0;
@@ -71,38 +71,38 @@ module decode_cycle20_tb;
         #10 rst = 1; // Activar sistema
 
         // Caso 1: Instrucción tipo ALU (por ejemplo, suma)
-        InstrD = 34'b0010000100010000010000100000000001; // Supongamos que esta instrucción es una suma
+        InstrD = 38'b10011010100110000000000000000000000100; // Supongamos que esta instrucción es un DIV R5, R3, #2
         PCD = 24'h000004; 
         PCPlus4D = 24'h000008;
         ResultW = 24'h000001; // Resultado que se escribirá en el register file
-        RDW = 5'b00001;       // Registro destino 1
+        RDW = 4'b0001;       // Registro destino 1
         RegWriteW = 1'b1;     // Habilitar escritura en registro
         #10;  // Esperar un ciclo
 
         // Caso 2: Instrucción de memoria (carga)
-        InstrD = 34'b0001001100010101010000000000000100; // Supongamos que esta es una instrucción de carga
+        InstrD = 38'b10011010100110000000000000000000000100; // Supongamos que esta es una instrucción de carga
         PCD = 24'h00000C; 
         PCPlus4D = 24'h000010;
         ResultW = 24'h000002; // Otro resultado
-        RDW = 5'b00010;       // Registro destino 2
+        RDW = 4'b0010;       // Registro destino 2
         RegWriteW = 1'b1;     // Habilitar escritura en registro
         #10;  // Esperar un ciclo
 
         // Caso 3: Instrucción de rama (salto condicional)
-        InstrD = 34'b0110001100001110000000000000000110; // Instrucción de salto condicional
+        InstrD = 38'b10011010100110000000000000000000000100; // Instrucción de salto condicional
         PCD = 24'h000014; 
         PCPlus4D = 24'h000018;
         ResultW = 24'h000003; // Resultado de un cálculo previo
-        RDW = 5'b00011;       // Registro destino 3
+        RDW = 4'b0011;       // Registro destino 3
         RegWriteW = 1'b1;     // Habilitar escritura en registro
         #10;  // Esperar un ciclo
 
         // Caso 4: Instrucción de inmediato
-        InstrD = 34'b1001000100001000000000000011111111; // Inmediato tipo
+        InstrD = 38'b1000001010011000000000000000001100100; // Inmediato tipo
         PCD = 24'h000020; 
         PCPlus4D = 24'h000024;
         ResultW = 24'h000004; // Otro resultado de inmediato
-        RDW = 5'b00100;       // Registro destino 4
+        RDW = 4'b0100;       // Registro destino 4
         RegWriteW = 1'b1;     // Habilitar escritura en registro
         #10;  // Esperar un ciclo
 

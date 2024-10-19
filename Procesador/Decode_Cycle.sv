@@ -1,7 +1,7 @@
 module decode_cycle(
     input clk, rst, RegWriteW,
-    input [4:0] RDW,
-    input [33:0] InstrD, // Instrucción de 34 bits
+    input [3:0] RDW,
+    input [37:0] InstrD, // Instrucción de 34 bits
     input [23:0] PCD, PCPlus4D, // PC ajustado a 24 bits
     input [23:0] ResultW,
     
@@ -27,9 +27,10 @@ module decode_cycle(
 
 
 	 Control_Unit_Top control(
-    .tipo(InstrD[32:31]),   // Tipo de instrucción
-    .op(InstrD[30:29]),     // Operación específica
-    .Inm(InstrD[33]),          // Bit de inmediato
+    .tipo(InstrD[36:35]),   // Tipo de instrucción
+    .op(InstrD[34:33]),     // Operación específica
+    .Inm(InstrD[37]),          // Bit de inmediato
+
 	 
     .RegWrite(RegWriteD),    // Habilitar escritura en registros
     .ImmSrc(ImmSrcD),  // Fuente del inmediato
@@ -40,15 +41,14 @@ module decode_cycle(
      .ALUControl(ALUControlD)  // Control para la ALU
 );
 	 
-	 
     // Archivo de registros
     Register_File rf (
         .clk(clk),
         .rst(rst),
         .WE3(RegWriteW),
         .WD3(ResultW),    // Escribimos en registros de 24 bits
-        .A1(InstrD[28:26]), // Fuente A1 ajustada a la ISA
-        .A2(InstrD[25:23]),  // Fuente A2 ajustada a la ISA
+        .A1(InstrD[31:28]), // Fuente A1 ajustada a la ISA
+        .A2(InstrD[27:24]),  // Fuente A2 ajustada a la ISA
         .A3(RDW),
 		  
         .RD1(RD1_D),      // Lectura de registros de 22 bits
@@ -93,8 +93,8 @@ module decode_cycle(
             RD_D_r <= InstrD[4:0]; // Ajustado para 5 bits
             PCD_r <= PCD; 
             PCPlus4D_r <= PCPlus4D;
-            RS1_D_r <= InstrD[28:26]; // Ajustado para 3 bits
-            RS2_D_r <= InstrD[25:23];  // Ajustado para 3 bits
+            RS1_D_r <= InstrD[32:29]; // Ajustado para 3 bits
+            RS2_D_r <= InstrD[28:25];  // Ajustado para 3 bits
         end
     end
 

@@ -2,21 +2,21 @@ module Register_File(
     input clk,                  // Señal de reloj
     input rst,                  // Señal de reset
     input WE3,                  // Señal de habilitación de escritura
-    input [2:0] A1,             // Dirección de registro fuente 1 (3 bits: 8 registros)
-    input [2:0] A2,             // Dirección de registro fuente 2 (3 bits: 8 registros)
-    input [2:0] A3,             // Dirección de registro destino (3 bits: 8 registros)
-    input [33:0] WD3,           // Dato de escritura (34 bits)
+    input [3:0] A1,             // Dirección de registro fuente 1 (4 bits: 16 registros)
+    input [3:0] A2,             // Dirección de registro fuente 2 (4 bits: 16 registros)
+    input [3:0] A3,             // Dirección de registro destino (4 bits: 16 registros)
+    input [23:0] WD3,           // Dato de escritura (24 bits)
 
-    output [33:0] RD1,          // Dato de lectura del registro fuente 1 (34 bits)
-    output [33:0] RD2           // Dato de lectura del registro fuente 2 (34 bits)
+    output [23:0] RD1,          // Dato de lectura del registro fuente 1 (24 bits)
+    output [23:0] RD2           // Dato de lectura del registro fuente 2 (24 bits)
 );
 
-    // Definimos 8 registros de 34 bits
-    reg [23:0] Register [7:0]; 
+    // Definimos 16 registros de 34 bits
+    reg [23:0] Register [3:0];
 
     // Bloque secuencial para escritura
     always @ (posedge clk) begin
-        if (WE3 && (A3 != 3'b000))  // Escribimos si WE3 está activo y no se selecciona el registro 0
+        if (WE3 && (A3 != 4'b0000))  // Escribimos si WE3 está activo y no se selecciona el registro 0
             Register[A3] <= WD3;    // Escribimos los 34 bits completos
     end
 
