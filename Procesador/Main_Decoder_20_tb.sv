@@ -1,134 +1,97 @@
 module Main_Decoder_20_tb;
 
-    // Declaración de señales de prueba
-    logic [1:0] tipo;   // Tipo de instrucción
-    logic [1:0] op;     // Operación específica
-    logic Inm;          // Bit de inmediato
-	 
-    logic RegWrite;    // Habilitar escritura en registros
-    logic [1:0] ImmSrc;// Fuente del inmediato
-    logic ALUSrc;      // Selección entre registro o inmediato en la ALU
-    logic MemWrite;    // Habilitar escritura en memoria
-    logic ResultSrc;   // Selección del resultado (ALU o memoria)
-    logic Branch;      // Indicar si es una instrucción de salto condicional
-    logic [1:0] ALUOp;  // Señal de control para la ALU
 
-    // Instancia del decodificador
-    Main_Decoder_20 uut (
-        .tipo(tipo),       // Tipo de instrucción
-        .op(op),           // Operación específica
-        .Inm(Inm),         // Bit de inmediato
-        .RegWrite(RegWrite),    // Habilitar escritura en registros
-        .ImmSrc(ImmSrc),        // Fuente del inmediato
-        .ALUSrc(ALUSrc),        // Selección entre registro o inmediato en la ALU
-        .MemWrite(MemWrite),    // Habilitar escritura en memoria
-        .ResultSrc(ResultSrc),  // Selección del resultado (ALU o memoria)
-        .Branch(Branch),        // Indicar si es una instrucción de salto condicional
-        .ALUOp(ALUOp)           // Señal de control para la ALU
+    // Entradas
+    reg [1:0] tipo;   // Tipo de instrucción
+    reg [1:0] op;     // Operación específica
+    reg Inm;          // Bit de inmediato
+
+    // Salidas
+    wire RegWrite;
+    wire [1:0] ImmSrc;
+    wire ALUSrc;
+    wire MemWrite;
+    wire ResultSrc;
+    wire Branch;
+    wire [1:0] ALUOp;
+    wire [1:0] RGB;
+
+    // Instancia del Main_Decoder
+    Main_Decoder uut (
+        .tipo(tipo),
+        .op(op),
+        .Inm(Inm),
+        .RegWrite(RegWrite),
+        .ImmSrc(ImmSrc),
+        .ALUSrc(ALUSrc),
+        .MemWrite(MemWrite),
+        .ResultSrc(ResultSrc),
+        .Branch(Branch),
+        .ALUOp(ALUOp),
+        .RGB(RGB)
     );
-	 
-    // Procedimiento inicial
+
+    // Estímulos de prueba
     initial begin
-        // Imprimir título
-        $display("Comenzando pruebas para Main Decoder...");
-        $display("Formato: tipo=%b, op=%b, Inm=%b -> RegWrite=%b, ImmSrc=%b, ALUSrc=%b, MemWrite=%b, ResultSrc=%b, Branch=%b, ALUOp=%b", 
-                 tipo, op, Inm, RegWrite, ImmSrc, ALUSrc, MemWrite, ResultSrc, Branch, ALUOp);
+        $display("=== Testbench para Main_Decoder especializado en imagen ===");
 
-        // Test 1: Instrucciones Aritméticas (tipo = 00)
-        $display("Probando instrucciones aritméticas (tipo 00)...");
-        tipo = 2'b00;
-
-        // ADD (00)
-        op = 2'b00; Inm = 0;
-        #10;  
-        $display("ADD (00): tipo=%b, op=%b, Inm=%b -> RegWrite=%b, ImmSrc=%b, ALUSrc=%b, MemWrite=%b, ResultSrc=%b, Branch=%b, ALUOp=%b", 
-                 tipo, op, Inm, RegWrite, ImmSrc, ALUSrc, MemWrite, ResultSrc, Branch, ALUOp);
-
-        // SUB (01)
-        op = 2'b01; Inm = 0;
+        // Prueba 1: Instrucción aritmética (ADD)
+        tipo = 2'b00; op = 2'b00; Inm = 1'b0;
         #10;
-        $display("SUB (01): tipo=%b, op=%b, Inm=%b -> RegWrite=%b, ImmSrc=%b, ALUSrc=%b, MemWrite=%b, ResultSrc=%b, Branch=%b, ALUOp=%b", 
-                 tipo, op, Inm, RegWrite, ImmSrc, ALUSrc, MemWrite, ResultSrc, Branch, ALUOp);
+        $display("Tipo=Aritmetica, Op=ADD, Inm=0: RegWrite=%b, ALUSrc=%b, ALUOp=%b, Branch=%b, MemWrite=%b, ResultSrc=%b, RGB=%b",
+                 RegWrite, ALUSrc, ALUOp, Branch, MemWrite, ResultSrc, RGB);
 
-        // MULT (10)
-        op = 2'b10; Inm = 0;
+        // Prueba 2: Instrucción de lectura (LDR) con color rojo
+        tipo = 2'b01; op = 2'b01; Inm = 1'b1;
         #10;
-        $display("MULT (10): tipo=%b, op=%b, Inm=%b -> RegWrite=%b, ImmSrc=%b, ALUSrc=%b, MemWrite=%b, ResultSrc=%b, Branch=%b, ALUOp=%b", 
-                 tipo, op, Inm, RegWrite, ImmSrc, ALUSrc, MemWrite, ResultSrc, Branch, ALUOp);
+        $display("Tipo=Lectura, Op=LDR, Inm=1, Color=Red: RegWrite=%b, ALUSrc=%b, ALUOp=%b, Branch=%b, MemWrite=%b, ResultSrc=%b, RGB=%b",
+                 RegWrite, ALUSrc, ALUOp, Branch, MemWrite, ResultSrc, RGB);
 
-        // DIV (11)
-        op = 2'b11; Inm = 0;
+        // Prueba 3: Instrucción de lectura (LDG) con color verde
+        tipo = 2'b01; op = 2'b10; Inm = 1'b0;
         #10;
-        $display("DIV (11): tipo=%b, op=%b, Inm=%b -> RegWrite=%b, ImmSrc=%b, ALUSrc=%b, MemWrite=%b, ResultSrc=%b, Branch=%b, ALUOp=%b", 
-                 tipo, op, Inm, RegWrite, ImmSrc, ALUSrc, MemWrite, ResultSrc, Branch, ALUOp);
+        $display("Tipo=Lectura, Op=LDG, Inm=0, Color=Green: RegWrite=%b, ALUSrc=%b, ALUOp=%b, Branch=%b, MemWrite=%b, ResultSrc=%b, RGB=%b",
+                 RegWrite, ALUSrc, ALUOp, Branch, MemWrite, ResultSrc, RGB);
 
-        // Test 2: Instrucciones de Transferencia de Datos (tipo = 01)
-        $display("Probando instrucciones de transferencia de datos (tipo 01)...");
-        tipo = 2'b01;
-
-        // MOV (00)
-        op = 2'b00; Inm = 0;
+        // Prueba 4: Instrucción de lectura (LDB) con color azul
+        tipo = 2'b01; op = 2'b11; Inm = 1'b1;
         #10;
-        $display("MOV (00): tipo=%b, op=%b, Inm=%b -> RegWrite=%b, ImmSrc=%b, ALUSrc=%b, MemWrite=%b, ResultSrc=%b, Branch=%b, ALUOp=%b", 
-                 tipo, op, Inm, RegWrite, ImmSrc, ALUSrc, MemWrite, ResultSrc, Branch, ALUOp);
+        $display("Tipo=Lectura, Op=LDB, Inm=1, Color=Blue: RegWrite=%b, ALUSrc=%b, ALUOp=%b, Branch=%b, MemWrite=%b, ResultSrc=%b, RGB=%b",
+                 RegWrite, ALUSrc, ALUOp, Branch, MemWrite, ResultSrc, RGB);
 
-        // LDR (01)
-        op = 2'b01; Inm = 0;
+        // Prueba 5: Instrucción de control de flujo (BEQ)
+        tipo = 2'b10; op = 2'b11; Inm = 1'b0;
         #10;
-        $display("LDR (01): tipo=%b, op=%b, Inm=%b -> RegWrite=%b, ImmSrc=%b, ALUSrc=%b, MemWrite=%b, ResultSrc=%b, Branch=%b, ALUOp=%b", 
-                 tipo, op, Inm, RegWrite, ImmSrc, ALUSrc, MemWrite, ResultSrc, Branch, ALUOp);
+        $display("Tipo=Flujo, Op=BEQ: RegWrite=%b, ALUSrc=%b, ALUOp=%b, Branch=%b, MemWrite=%b, ResultSrc=%b, RGB=%b",
+                 RegWrite, ALUSrc, ALUOp, Branch, MemWrite, ResultSrc, RGB);
 
-        // STR (10)
-        op = 2'b10; Inm = 0;
+        // Prueba 6: Instrucción de escritura (STR) con color rojo
+        tipo = 2'b11; op = 2'b01; Inm = 1'b0;
         #10;
-        $display("STR (10): tipo=%b, op=%b, Inm=%b -> RegWrite=%b, ImmSrc=%b, ALUSrc=%b, MemWrite=%b, ResultSrc=%b, Branch=%b, ALUOp=%b", 
-                 tipo, op, Inm, RegWrite, ImmSrc, ALUSrc, MemWrite, ResultSrc, Branch, ALUOp);
+        $display("Tipo=Escritura, Op=STR, Color=Red: RegWrite=%b, ALUSrc=%b, ALUOp=%b, Branch=%b, MemWrite=%b, ResultSrc=%b, RGB=%b",
+                 RegWrite, ALUSrc, ALUOp, Branch, MemWrite, ResultSrc, RGB);
 
-        // Test 3: Instrucciones de Control de Flujo (tipo = 10)
-        $display("Probando instrucciones de control de flujo (tipo 10)...");
-        tipo = 2'b10;
-
-        // Branch (00)
-        op = 2'b00; Inm = 0;
+        // Prueba 7: Instrucción de escritura (STG) con color verde
+        tipo = 2'b11; op = 2'b10; Inm = 1'b1;
         #10;
-        $display("Branch (00): tipo=%b, op=%b, Inm=%b -> RegWrite=%b, ImmSrc=%b, ALUSrc=%b, MemWrite=%b, ResultSrc=%b, Branch=%b, ALUOp=%b", 
-                 tipo, op, Inm, RegWrite, ImmSrc, ALUSrc, MemWrite, ResultSrc, Branch, ALUOp);
+        $display("Tipo=Escritura, Op=STG, Color=Green: RegWrite=%b, ALUSrc=%b, ALUOp=%b, Branch=%b, MemWrite=%b, ResultSrc=%b, RGB=%b",
+                 RegWrite, ALUSrc, ALUOp, Branch, MemWrite, ResultSrc, RGB);
 
-        // Branch_link (01)
-        op = 2'b01; Inm = 0;
+        // Prueba 8: Instrucción de escritura (STB) con color azul
+        tipo = 2'b11; op = 2'b11; Inm = 1'b0;
         #10;
-        $display("Branch_link (01): tipo=%b, op=%b, Inm=%b -> RegWrite=%b, ImmSrc=%b, ALUSrc=%b, MemWrite=%b, ResultSrc=%b, Branch=%b, ALUOp=%b", 
-                 tipo, op, Inm, RegWrite, ImmSrc, ALUSrc, MemWrite, ResultSrc, Branch, ALUOp);
+        $display("Tipo=Escritura, Op=STB, Color=Blue: RegWrite=%b, ALUSrc=%b, ALUOp=%b, Branch=%b, MemWrite=%b, ResultSrc=%b, RGB=%b",
+                 RegWrite, ALUSrc, ALUOp, Branch, MemWrite, ResultSrc, RGB);
+					  
+		  // Prueba 9: RET
+        tipo = 2'b11; op = 2'b00; Inm = 1'b0;
+        #10;
+        $display("Tipo=Escritura, Op=STB, Color=Blue: RegWrite=%b, ALUSrc=%b, ALUOp=%b, Branch=%b, MemWrite=%b, ResultSrc=%b, RGB=%b",
+                 RegWrite, ALUSrc, ALUOp, Branch, MemWrite, ResultSrc, RGB);
 
-        // CMP (10)
-        op = 2'b10; Inm = 0;
-        #10;
-        $display("CMP (10): tipo=%b, op=%b, Inm=%b -> RegWrite=%b, ImmSrc=%b, ALUSrc=%b, MemWrite=%b, ResultSrc=%b, Branch=%b, ALUOp=%b", 
-                 tipo, op, Inm, RegWrite, ImmSrc, ALUSrc, MemWrite, ResultSrc, Branch, ALUOp);
-
-        // BEQ (11)
-        op = 2'b11; Inm = 0;
-        #10;
-        $display("BEQ (11): tipo=%b, op=%b, Inm=%b -> RegWrite=%b, ImmSrc=%b, ALUSrc=%b, MemWrite=%b, ResultSrc=%b, Branch=%b, ALUOp=%b", 
-                 tipo, op, Inm, RegWrite, ImmSrc, ALUSrc, MemWrite, ResultSrc, Branch, ALUOp);
-
-        // Test de instrucciones con Inmediato activado
-        $display("Probando instrucciones con inmediato activado...");
-        
-        // ADD con inmediato
-        tipo = 2'b00; op = 2'b00; Inm = 1;
-        #10;
-        $display("ADD con inmediato (00): tipo=%b, op=%b, Inm=%b -> RegWrite=%b, ImmSrc=%b, ALUSrc=%b, MemWrite=%b, ResultSrc=%b, Branch=%b, ALUOp=%b", 
-                 tipo, op, Inm, RegWrite, ImmSrc, ALUSrc, MemWrite, ResultSrc, Branch, ALUOp);
-
-        // SUB con inmediato
-        tipo = 2'b00; op = 2'b01; Inm = 1;
-        #10;
-        $display("SUB con inmediato (01): tipo=%b, op=%b, Inm=%b -> RegWrite=%b, ImmSrc=%b, ALUSrc=%b, MemWrite=%b, ResultSrc=%b, Branch=%b, ALUOp=%b", 
-                 tipo, op, Inm, RegWrite, ImmSrc, ALUSrc, MemWrite, ResultSrc, Branch, ALUOp);
-        
-        $display("Fin de las pruebas.");
+        // Finalizar simulación
         $finish;
     end
+
 endmodule
 
