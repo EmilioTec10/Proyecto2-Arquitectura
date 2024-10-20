@@ -4,10 +4,10 @@ module Pipeline_Top(input clk, input rst);
     wire PCSrcE, RegWriteW, RegWriteE, ALUSrcE, MemWriteE, ResultSrcE, BranchE, RegWriteM, MemWriteM, ResultSrcM, ResultSrcW;
     wire [2:0] ALUControlE;
     wire [4:0] RD_E, RD_M, RDW;
-    wire [31:0] PCTargetE, InstrD, PCD, PCPlus4D, ResultW, RD1_E, RD2_E, Imm_Ext_E, PCE, PCPlus4E, PCPlus4M, WriteDataM, ALU_ResultM;
-    wire [31:0] PCPlus4W, ALU_ResultW, ReadDataW;
+    wire [32:0] PCTargetE, InstrD, PCD, PCPlus4D, ResultW, RD1_E, RD2_E, Imm_Ext_E, PCE, PCPlus4E, PCPlus4M, WriteDataM, ALU_ResultM;
+    wire [32:0] PCPlus4W, ALU_ResultW, ReadDataW;
     wire [4:0] RS1_E, RS2_E;
-    wire [1:0] ForwardBE, ForwardAE;
+    wire [1:0] ForwardBE, ForwardAE, RGB_D;
     
 
     // Module Initiation
@@ -47,7 +47,9 @@ module Pipeline_Top(input clk, input rst);
                         .PCPlus4E(PCPlus4E),
 								
                         .RS1_E(RS1_E),
-                        .RS2_E(RS2_E)
+                        .RS2_E(RS2_E),
+								
+								.RGB_D(RGB_D)
                     );
 
     // Execute Stage
@@ -78,7 +80,8 @@ module Pipeline_Top(input clk, input rst);
                         .ALU_ResultM(ALU_ResultM),
                         .ResultW(ResultW),
                         .ForwardA_E(ForwardAE),
-                        .ForwardB_E(ForwardBE)
+                        .ForwardB_E(ForwardBE),
+								.RGB_D(RGB_D)
                     );
     
     // Memory Stage
@@ -97,7 +100,8 @@ module Pipeline_Top(input clk, input rst);
                         .RD_W(RDW), 
                         .PCPlus4W(PCPlus4W), 
                         .ALU_ResultW(ALU_ResultW), 
-                        .ReadDataW(ReadDataW)
+                        .ReadDataW(ReadDataW),
+								.RGB_E(RGB_E)
                     );
 
     // Write Back Stage

@@ -10,11 +10,11 @@ module writeback_cycle(
 
 
 // Declaration of Module
-Mux3Parametrizado #(18) result_mux (    
+Mux2Parametrizado #(18) result_mux (    
                 .a(ALU_ResultW),
                 .b(ReadDataW),
-					 .c(PCPlus4W),
-                .s(ResultSrcW),
-					 .d(ResultW)
+					 //.c(PCPlus4W),
+                .s(ResultSrcW[0]),
+					 .c(ResultW)
                 );
 endmodule 

@@ -1,35 +1,36 @@
 module decode_cycle(
     input clk, rst, RegWriteW,
-    input [3:0] RDW,
-    input [37:0] InstrD, // Instrucción de 34 bits
-    input [23:0] PCD, PCPlus4D, // PC ajustado a 24 bits
-    input [23:0] ResultW,
+    input [4:0] RDW,
+    input [32:0] InstrD, // Instrucción de 34 bits
+    input [17:0] PCD, PCPlus4D, // PC ajustado a 18 bits
+    input [17:0] ResultW,
     
     output RegWriteE, ALUSrcE, MemWriteE, ResultSrcE, BranchE,
     output [2:0] ALUControlE,
-    output [23:0] RD1_E, RD2_E, Imm_Ext_E,
+    output [17:0] RD1_E, RD2_E, Imm_Ext_E,
     output [4:0] RS1_E, RS2_E, RD_E,
-    output [23:0] PCE, PCPlus4E
+    output [8:0] PCE, PCPlus4E,
+	 output [1:0] RGB_D
 );
 
     // Declaring Interim Wires
     wire RegWriteD, ALUSrcD, MemWriteD, ResultSrcD, BranchD;
-    wire [1:0] ImmSrcD;
+    wire [1:0] ImmSrcD, RGB;
     wire [2:0] ALUControlD;
-    wire [23:0] RD1_D, RD2_D, Imm_Ext_D; // Registros de 24 bits ahora
+    wire [17:0] RD1_D, RD2_D, Imm_Ext_D; // Registros de 18 bits ahora
 
     // Declaration of Interim Register
     reg RegWriteD_r, ALUSrcD_r, MemWriteD_r, ResultSrcD_r, BranchD_r;
-    reg [2:0] ALUControlD_r;
-    reg [21:0] RD1_D_r, RD2_D_r, Imm_Ext_D_r;
+    reg [2:0] ALUControlD_r, RGB_D_r;
+    reg [17:0] RD1_D_r, RD2_D_r, Imm_Ext_D_r;
     reg [4:0] RD_D_r, RS1_D_r, RS2_D_r;
-    reg [23:0] PCD_r, PCPlus4D_r;
+    reg [8:0] PCD_r, PCPlus4D_r;
 
 
 	 Control_Unit_Top control(
-    .tipo(InstrD[36:35]),   // Tipo de instrucción
-    .op(InstrD[34:33]),     // Operación específica
-    .Inm(InstrD[37]),          // Bit de inmediato
+    .tipo(InstrD[31:30]),   // Tipo de instrucción
+    .op(InstrD[29:28]),     // Operación específica
+    .Inm(InstrD[32]),          // Bit de inmediato
 
 	 
     .RegWrite(RegWriteD),    // Habilitar escritura en registros
@@ -38,7 +39,8 @@ module decode_cycle(
     .MemWrite(MemWriteD),    // Habilitar escritura en memoria
     .ResultSrc(ResultSrcD),   // Selección del resultado (ALU/memoria)
     .Branch(BranchD),      // Indicar si es una instrucción de salto condicional
-     .ALUControl(ALUControlD)  // Control para la ALU
+    .ALUControl(ALUControlD),  // Control para la ALU
+	 .RGB(RGB)						// Control de color
 );
 	 
     // Archivo de registros
@@ -46,9 +48,9 @@ module decode_cycle(
         .clk(clk),
         .rst(rst),
         .WE3(RegWriteW),
-        .WD3(ResultW),    // Escribimos en registros de 24 bits
-        .A1(InstrD[31:28]), // Fuente A1 ajustada a la ISA
-        .A2(InstrD[27:24]),  // Fuente A2 ajustada a la ISA
+        .WD3(ResultW),    // Escribimos en registros de 18 bits
+        .A1(InstrD[27:23]), // Fuente A1 ajustada a la ISA
+        .A2(InstrD[22:18]),  // Fuente A2 ajustada a la ISA
         .A3(RDW),
 		  
         .RD1(RD1_D),      // Lectura de registros de 22 bits
@@ -58,7 +60,7 @@ module decode_cycle(
     // Extensión de signo
     Sign_Extend extension (
         .In(InstrD),     // Instrucción de 34 bits
-        .Imm_Ext(Imm_Ext_D),  // Inmediato extendido de 24 bits
+        .Imm_Ext(Imm_Ext_D),  // Inmediato extendido de 18 bits
         .ImmSrc(ImmSrcD)
     );
 
@@ -71,14 +73,15 @@ module decode_cycle(
             ResultSrcD_r <= 1'b0;
             BranchD_r <= 1'b0;
             ALUControlD_r <= 3'b000;
-            RD1_D_r <= 24'h000000; 
-            RD2_D_r <= 24'h000000; 
-            Imm_Ext_D_r <= 22'h000000;
+            RD1_D_r <= 18'd0; 
+            RD2_D_r <= 18'd0; 
+            Imm_Ext_D_r <= 18'd0;
             RD_D_r <= 5'h00;
-            PCD_r <= 22'h000000; 
-            PCPlus4D_r <= 24'h000000;
+            PCD_r <= 8'd0; 
+            PCPlus4D_r <= 8'd0;
             RS1_D_r <= 5'h00;
             RS2_D_r <= 5'h00;
+				RGB_D_r <= 2'd0;
         end
         else begin
             RegWriteD_r <= RegWriteD;
@@ -90,11 +93,12 @@ module decode_cycle(
             RD1_D_r <= RD1_D; 
             RD2_D_r <= RD2_D; 
             Imm_Ext_D_r <= Imm_Ext_D;
-            RD_D_r <= InstrD[4:0]; // Ajustado para 5 bits
+            RD_D_r <= InstrD[27:23]; // Ajustado para 5 bits
             PCD_r <= PCD; 
             PCPlus4D_r <= PCPlus4D;
-            RS1_D_r <= InstrD[32:29]; // Ajustado para 3 bits
-            RS2_D_r <= InstrD[28:25];  // Ajustado para 3 bits
+            RS1_D_r <= InstrD[27:23]; // Ajustado para 3 bits
+            RS2_D_r <= InstrD[22:18];  // Ajustado para 3 bits
+				RGB_D_r <= RGB;
         end
     end
 
@@ -113,5 +117,6 @@ module decode_cycle(
     assign PCPlus4E = PCPlus4D_r;
     assign RS1_E = RS1_D_r;
     assign RS2_E = RS2_D_r;
+	 assign RGB_D = RGB_D_r;
 
 endmodule

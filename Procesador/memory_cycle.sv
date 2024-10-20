@@ -3,6 +3,7 @@ module memory_cycle(
 	input logic [4:0] RD_M, // Seguramente tenga q cambiar con el isa
 	input logic [8:0] PCPlus4M,
 	input logic [17:0] ALU_ResultM, WriteDataM, 
+	input logic [1:0] RGB_E,
 	output logic RegWriteW, ResultSrcW, 
 	output logic [4:0] RD_W, // Seguramente tenga q cambiar con el isa
 	output logic [8:0] PCPlus4W,

@@ -6,11 +6,12 @@ module execute_cycle(
     input [17:0] RD1_E, RD2_E, Imm_Ext_E,
     input [4:0] RD_E,
     input [17:0] PCE, PCPlus4E, ResultW,
-    input [1:0] ForwardA_E, ForwardB_E,
+    input [1:0] ForwardA_E, ForwardB_E, RGB_D,
     
     output PCSrcE, RegWriteM, MemWriteM, ResultSrcM,
     output [4:0] RD_M,
-    output [17:0] PCPlus4M, WriteDataM, ALU_ResultM, PCTargetE
+    output [17:0] PCPlus4M, WriteDataM, ALU_ResultM, PCTargetE,
+	 output [1:0] RGB_E
 );
 
     // Declaración de señales internas
@@ -22,7 +23,8 @@ module execute_cycle(
     reg RegWriteE_r, MemWriteE_r, ResultSrcE_r;
     reg [4:0] RD_E_r;
     reg [17:0] PCPlus4E_r, RD2_E_r;
-    reg [33:0] ResultE_r;  // Registro ajustado a 34 bits para almacenar el resultado de la ALU
+    reg [17:0] ResultE_r;  // Registro ajustado a 34 bits para almacenar el resultado de la ALU
+	 reg [1:0] RGB_E_r;
 
     // Multiplexores 3 a 1 para las entradas de la ALU (Fuente A y Fuente B)
 	 
@@ -80,12 +82,14 @@ module execute_cycle(
             RD_E_r <= 5'h00;
             PCPlus4E_r <= 24'd0; 
             RD2_E_r <= 24'd0; 
-            ResultE_r <= 34'd0;  // Inicializar a 0
+            ResultE_r <= 33'd0;  // Inicializar a 0
+				RGB_E_r <= 2'd0;
         end else begin
             RegWriteE_r <= RegWriteE; 
             MemWriteE_r <= MemWriteE; 
             ResultSrcE_r <= ResultSrcE;
             RD_E_r <= RD_E;
+				RGB_E_r <= RGB_D;
             PCPlus4E_r <= PCPlus4E; 
             RD2_E_r <= Src_B_interim; 
             ResultE_r <= ResultE;  // Almacenar el resultado de la ALU
@@ -101,5 +105,6 @@ module execute_cycle(
     assign PCPlus4M = PCPlus4E_r;
     assign WriteDataM = RD2_E_r;
     assign ALU_ResultM = ResultE_r[17:0];  // Truncar el resultado de la ALU a 24 bits
+	 assign RGB_E = RGB_E_r;
 
 endmodule

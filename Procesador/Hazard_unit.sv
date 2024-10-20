@@ -10,4 +10,4 @@ module hazard_unit(input logic rst, RegWriteM, RegWriteW,
                        ((RegWriteM == 1'b1) & (RD_M != 5'h00) & (RD_M == Rs2_E)) ? 2'b10 :
                        ((RegWriteW == 1'b1) & (RD_W != 5'h00) & (RD_W == Rs2_E)) ? 2'b01 : 2'b00;
 
-endmodule
+endmodule 

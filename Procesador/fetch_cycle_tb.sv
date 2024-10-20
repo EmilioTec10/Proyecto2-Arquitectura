@@ -13,11 +13,10 @@ module fetch_cycle_tb;
 	
 	initial begin
 		clk = 1'b0;
-		rst <= 1'b0;
-		PCSrcE <= 1'b1;
-		PCTargetE <= 32'b0;
-		#5;
 		rst <= 1'b1;
+		PCSrcE <= 1'b1;
+		PCD <= 0;
+		PCTargetE <= 32'b0;
 		#1;
 		PCSrcE <= 1'b0;
 		PCTargetE <= 32'd0;
