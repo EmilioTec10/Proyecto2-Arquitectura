@@ -90,13 +90,14 @@ module decode_cycle(
             ResultSrcD_r <= ResultSrcD;
             BranchD_r <= BranchD;
             ALUControlD_r <= ALUControlD;
-            RD1_D_r <= RD1_D; 
+            RD1_D_r <= RD1_D;
             RD2_D_r <= RD2_D; 
             Imm_Ext_D_r <= Imm_Ext_D;
-            RD_D_r <= InstrD[27:23]; // Ajustado para 5 bits
+				RD_D_r <= (InstrD[31:30] == 2'b01) ? InstrD[27:23]  : 
+           (InstrD[32] == 1'b1) ? InstrD[22:18] : InstrD[4:0];
             PCD_r <= PCD; 
             PCPlus4D_r <= PCPlus4D;
-            RS1_D_r <= InstrD[4:0]; // Ajustado para 5 bits
+            RS1_D_r <= InstrD[27:23]; // Ajustado para 5 bits
             RS2_D_r <= InstrD[22:18];  // Ajustado para 5 bits
 				RGB_D_r <= RGB;
         end
