@@ -96,8 +96,8 @@ module decode_cycle(
             RD_D_r <= InstrD[27:23]; // Ajustado para 5 bits
             PCD_r <= PCD; 
             PCPlus4D_r <= PCPlus4D;
-            RS1_D_r <= InstrD[27:23]; // Ajustado para 3 bits
-            RS2_D_r <= InstrD[22:18];  // Ajustado para 3 bits
+            RS1_D_r <= InstrD[4:0]; // Ajustado para 5 bits
+            RS2_D_r <= InstrD[22:18];  // Ajustado para 5 bits
 				RGB_D_r <= RGB;
         end
     end
