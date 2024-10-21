@@ -18,4 +18,5 @@ module pipeline_tb;
 		 end
 
     Pipeline_Top dut (.clk(clk), .rst(rst));
+	
 endmodule
