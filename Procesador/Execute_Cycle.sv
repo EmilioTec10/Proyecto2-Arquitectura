@@ -1,6 +1,6 @@
 module execute_cycle(
     input clk, rst,
-    input RegWriteE, ALUSrcE, MemWriteE, ResultSrcE, BranchE,
+    input RegWriteE, ALUSrcE, MemWriteE, ResultSrcE, BranchE, FlushE,
     input [2:0] ALUControlE,
     input [17:0] RD1_E, RD2_E, Imm_Ext_E,
     input [4:0] RD_E,
@@ -73,8 +73,9 @@ module execute_cycle(
     );
 
     // Lógica de registros para los valores intermedios
-    always @(posedge clk or negedge rst) begin
+    always @(posedge clk or negedge rst or posedge FlushE) begin
         if (rst == 1'b0) begin
+		  
             RegWriteE_r <= 1'b0; 
             MemWriteE_r <= 1'b0; 
             ResultSrcE_r <= 1'b0;
@@ -83,13 +84,26 @@ module execute_cycle(
             RD2_E_r <= 24'd0; 
             ResultE_r <= 33'd0;  // Inicializar a 0
 				RGB_E_r <= 2'd0;
+			end
+			
+			if (FlushE == 1'b1) begin
+				RegWriteE_r <= RegWriteE_r; 
+            MemWriteE_r <= MemWriteE_r; 
+            ResultSrcE_r <= ResultSrcE_r;
+            RD_E_r <= RD_E_r;
+				RGB_E_r <= RGB_E_r;
+            PCPlus4E_r <= PCPlus4E_r; 
+            RD2_E_r <= RD2_E_r; 
+            ResultE_r <= ResultE_r;  // Almacenar el resultado de la ALU
 				
-        end else begin
+			end
+			
+         else begin
             RegWriteE_r <= RegWriteE; 
             MemWriteE_r <= MemWriteE; 
             ResultSrcE_r <= ResultSrcE;
             RD_E_r <= RD_E;
-				RGB_E_r <= RGB_D;
+				RGB_E_r <= RGB_E;
             PCPlus4E_r <= PCPlus4E; 
             RD2_E_r <= Src_B_interim; 
             ResultE_r <= ResultE;  // Almacenar el resultado de la ALU

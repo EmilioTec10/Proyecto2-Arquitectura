@@ -5,7 +5,7 @@ module decode_cycle(
     input [17:0] PCD, PCPlus4D, // PC ajustado a 18 bits
     input [17:0] ResultW,
     
-    output RegWriteE, ALUSrcE, MemWriteE, ResultSrcE, BranchE,
+    output RegWriteE, ALUSrcE, MemWriteE, ResultSrcE, BranchE, FlushE,
     output [2:0] ALUControlE,
     output [17:0] RD1_E, RD2_E, Imm_Ext_E,
     output [4:0] RS1_E, RS2_E, RD_E,
@@ -82,6 +82,7 @@ module decode_cycle(
             RS1_D_r <= 5'h00;
             RS2_D_r <= 5'h00;
 				RGB_D_r <= 2'd0;
+				StallD_r <= 1'd0;
         end
 		  else if (StallD) begin
 			  // No actualizar, mantener los valores actuales
@@ -100,6 +101,7 @@ module decode_cycle(
 			  RS1_D_r <= RS1_D_r;
 			  RS2_D_r <= RS2_D_r;
 			  RGB_D_r <= RGB_D_r;
+			  StallD_r <= StallD;
 		 end
 
         else begin
@@ -119,6 +121,7 @@ module decode_cycle(
             RS1_D_r <= InstrD[27:23]; // Ajustado para 5 bits
             RS2_D_r <= InstrD[22:18];  // Ajustado para 5 bits
 				RGB_D_r <= RGB;
+				StallD_r <= StallD;
         end
     end
 
@@ -139,5 +142,6 @@ module decode_cycle(
 	assign RS1_E = RS1_D_r;
 	assign RS2_E = RS2_D_r;
 	assign RGB_D = RGB_D_r;
+	assign FlushE = StallD_r;
 
 endmodule
