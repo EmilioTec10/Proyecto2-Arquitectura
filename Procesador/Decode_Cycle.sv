@@ -25,6 +25,10 @@ module decode_cycle(
     reg [17:0] RD1_D_r, RD2_D_r, Imm_Ext_D_r;
     reg [4:0] RD_D_r, RS1_D_r, RS2_D_r;
     reg [8:0] PCD_r, PCPlus4D_r;
+	 reg [4:0] A2;
+
+
+    assign A2 = (InstrD[32] == 2'b00) ? InstrD[4:0]  : InstrD[22:18];
 
 
 	 Control_Unit_Top control(
@@ -50,7 +54,7 @@ module decode_cycle(
         .WE3(RegWriteW),
         .WD3(ResultW),    // Escribimos en registros de 18 bits
         .A1(InstrD[27:23]), // Fuente A1 ajustada a la ISA
-        .A2(InstrD[22:18]),  // Fuente A2 ajustada a la ISA
+        .A2(A2),  // Fuente A2 ajustada a la ISA
         .A3(RDW),
 		  
         .RD1(RD1_D),      // Lectura de registros de 22 bits
@@ -114,7 +118,7 @@ module decode_cycle(
             RD1_D_r <= RD1_D;
             RD2_D_r <= RD2_D; 
             Imm_Ext_D_r <= Imm_Ext_D;
-				RD_D_r <= (InstrD[31:30] == 2'b01) ? InstrD[27:23]  : 
+				RD_D_r <= (InstrD[31:30] == 2'b01 && InstrD[29:28]== 2'b00) ? InstrD[22:18]  : 
            (InstrD[32] == 1'b1) ? InstrD[22:18] : InstrD[4:0];
             PCD_r <= PCD; 
             PCPlus4D_r <= PCPlus4D;
