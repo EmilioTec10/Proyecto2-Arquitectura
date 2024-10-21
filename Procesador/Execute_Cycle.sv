@@ -1,4 +1,3 @@
-
 module execute_cycle(
     input clk, rst,
     input RegWriteE, ALUSrcE, MemWriteE, ResultSrcE, BranchE,
@@ -84,6 +83,7 @@ module execute_cycle(
             RD2_E_r <= 24'd0; 
             ResultE_r <= 33'd0;  // Inicializar a 0
 				RGB_E_r <= 2'd0;
+				
         end else begin
             RegWriteE_r <= RegWriteE; 
             MemWriteE_r <= MemWriteE; 

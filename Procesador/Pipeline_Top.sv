@@ -1,7 +1,7 @@
 module Pipeline_Top(input clk, input rst);
 
     // Declaration of Interim Wires
-    wire PCSrcE, RegWriteW, RegWriteE, ALUSrcE, MemWriteE, ResultSrcE, BranchE, RegWriteM, MemWriteM, ResultSrcM, ResultSrcW;
+    wire PCSrcE, RegWriteW, RegWriteE, ALUSrcE, MemWriteE, ResultSrcE, BranchE, RegWriteM, MemWriteM, ResultSrcM, ResultSrcW, StallF, StallD;
     wire [2:0] ALUControlE;
     wire [4:0] RD_E, RD_M, RDW;
     wire [32:0] PCTargetE, InstrD, PCD, PCPlus4D, ResultW, RD1_E, RD2_E, Imm_Ext_E, PCE, PCPlus4E, PCPlus4M, WriteDataM, ALU_ResultM;
@@ -19,7 +19,8 @@ module Pipeline_Top(input clk, input rst);
                         .PCTargetE(PCTargetE), 
                         .InstrD(InstrD), 
                         .PCD(PCD), 
-                        .PCPlus4D(PCPlus4D)
+                        .PCPlus4D(PCPlus4D),
+								.StallF(StallF)
                     );
 
     // Decode Stage
@@ -31,7 +32,8 @@ module Pipeline_Top(input clk, input rst);
                         .PCPlus4D(PCPlus4D), 
                         .RegWriteW(RegWriteW), 
                         .RDW(RDW), 
-                        .ResultW(ResultW), 
+                        .ResultW(ResultW),
+							   .StallD(StallD),	
 								
                         .RegWriteE(RegWriteE), 
                         .ALUSrcE(ALUSrcE), 
@@ -123,8 +125,12 @@ module Pipeline_Top(input clk, input rst);
                         .RD_M(RD_M), 
                         .RD_W(RDW), 
                         .Rs1_E(RS1_E), 
-                        .Rs2_E(RS2_E), 
+                        .Rs2_E(RS2_E),
+							   .Rs1_D(InstrD[27:23]), // Usar Rs1_D en Decode
+								.Rs2_D(InstrD[22:18]), // Usar Rs2_D en Decode	
                         .ForwardAE(ForwardAE), 
-                        .ForwardBE(ForwardBE)
+                        .ForwardBE(ForwardBE),
+								.StallF(StallF), // Señal para hacer el stall en Fetch
+								.StallD(StallD)  // Señal para hacer el stall en Decode
                         );
 endmodule

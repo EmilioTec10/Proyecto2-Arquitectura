@@ -1,5 +1,5 @@
 module decode_cycle(
-    input clk, rst, RegWriteW,
+    input clk, rst, RegWriteW, StallD,
     input [4:0] RDW,
     input [32:0] InstrD, // Instrucción de 34 bits
     input [17:0] PCD, PCPlus4D, // PC ajustado a 18 bits
@@ -20,7 +20,7 @@ module decode_cycle(
     wire [17:0] RD1_D, RD2_D, Imm_Ext_D; // Registros de 18 bits ahora
 
     // Declaration of Interim Register
-    reg RegWriteD_r, ALUSrcD_r, MemWriteD_r, ResultSrcD_r, BranchD_r;
+    reg RegWriteD_r, ALUSrcD_r, MemWriteD_r, ResultSrcD_r, BranchD_r, StallD_r;
     reg [2:0] ALUControlD_r, RGB_D_r;
     reg [17:0] RD1_D_r, RD2_D_r, Imm_Ext_D_r;
     reg [4:0] RD_D_r, RS1_D_r, RS2_D_r;
@@ -83,6 +83,25 @@ module decode_cycle(
             RS2_D_r <= 5'h00;
 				RGB_D_r <= 2'd0;
         end
+		  else if (StallD) begin
+			  // No actualizar, mantener los valores actuales
+			  RegWriteD_r <= RegWriteD_r;
+			  ALUSrcD_r <= ALUSrcD_r;
+			  MemWriteD_r <= MemWriteD_r;
+			  ResultSrcD_r <= ResultSrcD_r;
+			  BranchD_r <= BranchD_r;
+			  ALUControlD_r <= ALUControlD_r;
+			  RD1_D_r <= RD1_D_r; 
+			  RD2_D_r <= RD2_D_r; 
+			  Imm_Ext_D_r <= Imm_Ext_D_r;
+			  RD_D_r <= RD_D_r;
+			  PCD_r <= PCD_r; 
+			  PCPlus4D_r <= PCPlus4D_r;
+			  RS1_D_r <= RS1_D_r;
+			  RS2_D_r <= RS2_D_r;
+			  RGB_D_r <= RGB_D_r;
+		 end
+
         else begin
             RegWriteD_r <= RegWriteD;
             ALUSrcD_r <= ALUSrcD;
@@ -103,21 +122,22 @@ module decode_cycle(
         end
     end
 
-    // Asignación de las salidas
-    assign RegWriteE = RegWriteD_r;
-    assign ALUSrcE = ALUSrcD_r;
-    assign MemWriteE = MemWriteD_r;
-    assign ResultSrcE = ResultSrcD_r;
-    assign BranchE = BranchD_r;
-    assign ALUControlE = ALUControlD_r;
-    assign RD1_E = RD1_D_r;
-    assign RD2_E = RD2_D_r;
-    assign Imm_Ext_E = Imm_Ext_D_r;
-    assign RD_E = RD_D_r;
-    assign PCE = PCD_r;
-    assign PCPlus4E = PCPlus4D_r;
-    assign RS1_E = RS1_D_r;
-    assign RS2_E = RS2_D_r;
-	 assign RGB_D = RGB_D_r;
+    
+    // Asignación de las salidas, manejando el StallD
+	assign RegWriteE = RegWriteD_r;
+	assign ALUSrcE = ALUSrcD_r;
+	assign MemWriteE = MemWriteD_r;
+	assign ResultSrcE = ResultSrcD_r;
+	assign BranchE = BranchD_r;
+	assign ALUControlE = ALUControlD_r;
+	assign RD1_E = RD1_D_r;
+	assign RD2_E = RD2_D_r;
+	assign Imm_Ext_E = Imm_Ext_D_r;
+	assign RD_E = RD_D_r;
+	assign PCE = PCD_r;
+	assign PCPlus4E = PCPlus4D_r;
+	assign RS1_E = RS1_D_r;
+	assign RS2_E = RS2_D_r;
+	assign RGB_D = RGB_D_r;
 
 endmodule

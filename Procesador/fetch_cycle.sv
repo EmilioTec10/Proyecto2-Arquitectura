@@ -1,6 +1,7 @@
 module fetch_cycle(
 	input logic clk, rst, PCSrcE,
-	input logic [8:0] PCTargetE, 
+	input logic [8:0] PCTargetE,
+	input logic StallF,
 	output logic [32:0] InstrD,
 	output logic [8:0] PCD, PCPlus4D
 	);
@@ -28,7 +29,14 @@ module fetch_cycle(
 			InstrF_reg <= 33'h0;
 			PCF_reg <= 9'd0;
 			PCPlus4F_reg <= 9'd0;
-		end
+		end 
+		else if (StallF) begin
+        // No actualizar, mantener los valores actuales
+        PCF <= PCF;
+        InstrF_reg <= InstrF_reg;
+        PCF_reg <= PCF_reg;
+        PCPlus4F_reg <= PCPlus4F_reg;
+      end
 		else begin
 			PCF <= PC_F;
 			InstrF_reg <= InstrF;
