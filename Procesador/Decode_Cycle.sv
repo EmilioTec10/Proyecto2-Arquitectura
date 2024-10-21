@@ -28,7 +28,7 @@ module decode_cycle(
 	 reg [4:0] A2;
 
 
-    assign A2 = (InstrD[32] == 2'b00) ? InstrD[4:0]  : InstrD[22:18];
+    assign A2 = (InstrD[32] == 1'b0 && InstrD[31:30] == 2'b01 && InstrD[29:28] == 2'b00 ) ? InstrD[4:0]  : InstrD[22:18];
 
 
 	 Control_Unit_Top control(
@@ -123,7 +123,7 @@ module decode_cycle(
             PCD_r <= PCD; 
             PCPlus4D_r <= PCPlus4D;
             RS1_D_r <= InstrD[27:23]; // Ajustado para 5 bits
-            RS2_D_r <= InstrD[22:18];  // Ajustado para 5 bits
+            RS2_D_r <= A2;  // Ajustado para 5 bits
 				RGB_D_r <= RGB;
 				StallD_r <= StallD;
         end
