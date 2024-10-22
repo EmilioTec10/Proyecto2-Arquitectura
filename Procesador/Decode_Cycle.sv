@@ -12,7 +12,7 @@ module decode_cycle(
     output [8:0] PCE, PCPlus4E,
 	 output [1:0] RGB_D,
 	 output JumpE,
-	 output PCsrcE
+	 output PCDirectionE 
 );
 
     // Declaring Interim Wires
@@ -21,7 +21,7 @@ module decode_cycle(
     wire [2:0] ALUControlD;
     wire [17:0] RD1_D, RD2_D, Imm_Ext_D; // Registros de 18 bits ahora
 	 wire JumpD; 
-	 wire PCsrcD;
+	 wire PCDirectionD;
 
     // Declaration of Interim Register
     reg RegWriteD_r, ALUSrcD_r, MemWriteD_r, ResultSrcD_r, BranchD_r, StallD_r;
@@ -30,13 +30,21 @@ module decode_cycle(
     reg [4:0] RD_D_r, RS1_D_r, RS2_D_r;
     reg [8:0] PCD_r, PCPlus4D_r;
 	 reg [4:0] A2;
+	 reg [4:0] A1;
+	 reg [4:0] RDW_D;
+	 reg [17:0] ResultD;
 	 reg JumpD_r;
-	 reg PCsrcD_r;
+	 reg  PCDirectionD_r;
 	 
 
-
+	 
     assign A2 = (InstrD[32] == 1'b0 && InstrD[31:30] == 2'b01 && InstrD[29:28] == 2'b00 ) ? InstrD[4:0]  : InstrD[22:18];
-
+	 
+	 assign ResultD = ( InstrD[31:30] == 2'b10 && InstrD[29:28] == 2'b01 ) ? {9'b0, PCD} : ResultW; 
+	 assign RDW_D = (InstrD[31:30] == 2'b10 && InstrD[29:28] == 2'b01)? 5'b11101 : RDW;
+	 
+	 //assign A1 = (InstrD[31:30] == 2'b11 && InstrD[29:28] == 2'b00)? 5'b11101 :  InstrD[27:23];
+	 
 	 Control_Unit_Top control(
     .tipo(InstrD[31:30]),   // Tipo de instrucción
     .op(InstrD[29:28]),     // Operación específica
@@ -52,7 +60,7 @@ module decode_cycle(
     .ALUControl(ALUControlD),  // Control para la ALU
 	 .RGB(RGB),						// Control de color
 	 .Jump(JumpD),
-	 .PCsrc(PCsrcD)
+	 .PCDirection(PCDirectionD)
 );
 	 
     // Archivo de registros
@@ -60,10 +68,10 @@ module decode_cycle(
         .clk(clk),
         .rst(rst),
         .WE3(RegWriteW),
-        .WD3(ResultW),    // Escribimos en registros de 18 bits
-        .A1(InstrD[27:23]), // Fuente A1 ajustada a la ISA
+        .WD3(ResultD),    // Escribimos en registros de 18 bits
+        .A1(A1), // Fuente A1 ajustada a la ISA
         .A2(A2),  // Fuente A2 ajustada a la ISA
-        .A3(RDW),
+        .A3(RDW_D),
 		  
         .RD1(RD1_D),      // Lectura de registros de 22 bits
 		  
@@ -90,7 +98,8 @@ module decode_cycle(
 				RGB_D_r <= 2'd0;
 				StallD_r <= 1'd0;
 				JumpD_r <= 1'd0;
-				PCsrcD_r <= 1'd0;
+				PCDirectionD_r <= 1'd0;
+				//ResultD <= 18'd0;
         end
 		  else if (StallD) begin
 			  // No actualizar, mantener los valores actuales
@@ -111,7 +120,7 @@ module decode_cycle(
 			  RGB_D_r <= RGB_D_r;
 			  StallD_r <= StallD;
 			  JumpD_r <= JumpD_r; 
-			  PCsrcD_r <= PCsrcD_r;
+			  PCDirectionD_r <= PCDirectionD_r;
 		 end
 
         else begin
@@ -133,7 +142,7 @@ module decode_cycle(
 				RGB_D_r <= RGB;
 				StallD_r <= StallD;
 				JumpD_r <= JumpD;
-				PCsrcD_r <= PCsrcD;
+				PCDirectionD_r <= PCDirectionD;
         end
     end
 
@@ -156,6 +165,6 @@ module decode_cycle(
 	assign RGB_D = RGB_D_r;
 	assign FlushE = StallD_r;
 	assign JumpE = JumpD_r;
-	assign PCsrcE =  PCsrcD_r;
+	assign PCDirectionE =  PCDirectionD_r;
 
 endmodule

@@ -12,7 +12,7 @@ module Main_Decoder(
     output reg [1:0] ALUOp,  // Señal de control para activar la ALU
 	 output reg [1:0] RGB,    //Indica el color que debe acceder a mem
 	 output reg Jump,
-	 output reg PCsrc // Indica direccion de branch 
+	 output reg PCDirection // Indica direccion de branch 
 );
 
     always @(*) begin
@@ -26,7 +26,7 @@ module Main_Decoder(
         ALUOp      = 2'b00; // La ALU no se activa por defecto
 		  RGB			 = 2'b00; //ningun color
 		  Jump 		 = 0;
-		  PCsrc		 = 0; //va hacia abajo
+		  PCDirection		 = 0; //va hacia abajo
 
         // Decodificación según el tipo de instrucción
         case (tipo)
@@ -70,7 +70,7 @@ module Main_Decoder(
             2'b10: begin  // Instrucciones de Control de Flujo
                 case (op)
                     2'b00: begin
-									PCsrc = Inm;
+									PCDirection = Inm;
 									Branch = 0; // Branch
 									ImmSrc = 2'b10 ;
 									Jump  = 1; 
@@ -94,9 +94,10 @@ module Main_Decoder(
 					 ALUSrc = Inm;
                 case (op)
                     2'b00: begin // RET
-								Branch = 1;
-                        RegWrite = 1; // Lectura 29
-                        ALUOp = 2'b01; // Se restar el PC al ultimo BL
+								//Branch = 1;
+								Jump = 1;
+								ImmSrc = 2'b10 ;
+                        //ALUOp = 2'b01; // Se restar el PC al ultimo BL
                     end
                     2'b01: begin // STR (store)
 								MemWrite = 1; // Escribimos en memoria
