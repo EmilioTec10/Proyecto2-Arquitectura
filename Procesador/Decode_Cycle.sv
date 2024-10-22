@@ -34,7 +34,6 @@ module decode_cycle(
 
     assign A2 = (InstrD[32] == 1'b0 && InstrD[31:30] == 2'b01 && InstrD[29:28] == 2'b00 ) ? InstrD[4:0]  : InstrD[22:18];
 
-
 	 Control_Unit_Top control(
     .tipo(InstrD[31:30]),   // Tipo de instrucción
     .op(InstrD[29:28]),     // Operación específica
@@ -66,14 +65,7 @@ module decode_cycle(
 		  
         .RD2(RD2_D)
     );
-
-    // Extensión de signo
-    Sign_Extend extension (
-        .In(InstrD),     // Instrucción de 34 bits
-        .Imm_Ext(Imm_Ext_D),  // Inmediato extendido de 18 bits
-        .ImmSrc(ImmSrcD)
-    );
-
+	 
     // Declaración de lógica de registros
     always @(posedge clk or negedge rst) begin
         if(rst == 1'b0) begin
@@ -125,7 +117,7 @@ module decode_cycle(
             ALUControlD_r <= ALUControlD;
             RD1_D_r <= RD1_D;
             RD2_D_r <= RD2_D; 
-            Imm_Ext_D_r <= Imm_Ext_D;
+            Imm_Ext_D_r <= InstrD[17:0];;
 				RD_D_r <= (InstrD[31:30] == 2'b01 && InstrD[29:28]== 2'b00) ? InstrD[22:18]  : 
            (InstrD[32] == 1'b1) ? InstrD[22:18] : InstrD[4:0];
             PCD_r <= PCD; 
