@@ -2,7 +2,7 @@ module decode_cycle(
     input clk, rst, RegWriteW, StallD,
     input [4:0] RDW,
     input [32:0] InstrD, // Instrucción de 34 bits
-    input [17:0] PCD, PCPlus4D, // PC ajustado a 18 bits
+    input [8:0] PCD, PCPlus4D, // PC ajustado a 18 bits
     input [17:0] ResultW,
     
     output RegWriteE, ALUSrcE, MemWriteE, ResultSrcE, BranchE, FlushE,
@@ -58,6 +58,7 @@ module decode_cycle(
         .A3(RDW),
 		  
         .RD1(RD1_D),      // Lectura de registros de 22 bits
+		  
         .RD2(RD2_D)
     );
 
@@ -81,8 +82,8 @@ module decode_cycle(
             RD2_D_r <= 18'd0; 
             Imm_Ext_D_r <= 18'd0;
             RD_D_r <= 5'h00;
-            PCD_r <= 8'd0; 
-            PCPlus4D_r <= 8'd0;
+            PCD_r <= 9'd0; 
+            PCPlus4D_r <= 9'd0;
             RS1_D_r <= 5'h00;
             RS2_D_r <= 5'h00;
 				RGB_D_r <= 2'd0;

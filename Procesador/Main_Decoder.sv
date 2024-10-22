@@ -65,7 +65,10 @@ module Main_Decoder(
 
             2'b10: begin  // Instrucciones de Control de Flujo
                 case (op)
-                    2'b00: Branch = 1; // Branch
+                    2'b00: begin
+									Branch = 1; // Branch
+									ImmSrc = 1 ;
+									end
                     2'b01: Branch = 1; // Branch_link
                     2'b10: begin // CMP
                         ALUOp = 2'b01; // Activamos la ALU para comparación
