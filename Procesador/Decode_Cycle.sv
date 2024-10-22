@@ -11,7 +11,8 @@ module decode_cycle(
     output [4:0] RS1_E, RS2_E, RD_E,
     output [8:0] PCE, PCPlus4E,
 	 output [1:0] RGB_D,
-	 output JumpE
+	 output JumpE,
+	 output PCsrcE
 );
 
     // Declaring Interim Wires
@@ -20,6 +21,7 @@ module decode_cycle(
     wire [2:0] ALUControlD;
     wire [17:0] RD1_D, RD2_D, Imm_Ext_D; // Registros de 18 bits ahora
 	 wire JumpD; 
+	 wire PCsrcD;
 
     // Declaration of Interim Register
     reg RegWriteD_r, ALUSrcD_r, MemWriteD_r, ResultSrcD_r, BranchD_r, StallD_r;
@@ -29,6 +31,7 @@ module decode_cycle(
     reg [8:0] PCD_r, PCPlus4D_r;
 	 reg [4:0] A2;
 	 reg JumpD_r;
+	 reg PCsrcD_r;
 	 
 
 
@@ -48,7 +51,8 @@ module decode_cycle(
     .Branch(BranchD),      // Indicar si es una instrucción de salto condicional
     .ALUControl(ALUControlD),  // Control para la ALU
 	 .RGB(RGB),						// Control de color
-	 .Jump(JumpD)
+	 .Jump(JumpD),
+	 .PCsrc(PCsrcD)
 );
 	 
     // Archivo de registros
@@ -86,6 +90,7 @@ module decode_cycle(
 				RGB_D_r <= 2'd0;
 				StallD_r <= 1'd0;
 				JumpD_r <= 1'd0;
+				PCsrcD_r <= 1'd0;
         end
 		  else if (StallD) begin
 			  // No actualizar, mantener los valores actuales
@@ -106,6 +111,7 @@ module decode_cycle(
 			  RGB_D_r <= RGB_D_r;
 			  StallD_r <= StallD;
 			  JumpD_r <= JumpD_r; 
+			  PCsrcD_r <= PCsrcD_r;
 		 end
 
         else begin
@@ -127,6 +133,7 @@ module decode_cycle(
 				RGB_D_r <= RGB;
 				StallD_r <= StallD;
 				JumpD_r <= JumpD;
+				PCsrcD_r <= PCsrcD;
         end
     end
 
@@ -149,5 +156,6 @@ module decode_cycle(
 	assign RGB_D = RGB_D_r;
 	assign FlushE = StallD_r;
 	assign JumpE = JumpD_r;
+	assign PCsrcE =  PCsrcD_r;
 
 endmodule

@@ -12,6 +12,7 @@ module Pipeline_Top(input clk, input rst);
     wire [1:0] ForwardBE, ForwardAE, RGB_D;
 	 wire Jump; 
     wire FlushE;
+	 wire PCsrc;
 
     // Module Initiation
     // Fetch Stage
@@ -57,7 +58,9 @@ module Pipeline_Top(input clk, input rst);
 								
 								.RGB_D(RGB_D),
 								
-								.JumpE(Jump)
+								.JumpE(Jump),
+								.PCsrcE(PCsrc)
+								
                     );
 
     // Execute Stage
@@ -78,6 +81,7 @@ module Pipeline_Top(input clk, input rst);
                         .PCPlus4E(PCPlus4E),
 							   .FlushE(FlushE),
 								.JumpE(Jump),
+								.PCsrcE(PCsrc),
 								
                         .PCSrcE(PCSrcE), 
                         .PCTargetE(PCTargetE), 
