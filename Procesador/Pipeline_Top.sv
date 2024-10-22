@@ -10,6 +10,7 @@ module Pipeline_Top(input clk, input rst);
 	 wire [17:0]  ALU_ResultW, ReadDataW;
     wire [4:0] RS1_E, RS2_E;
     wire [1:0] ForwardBE, ForwardAE, RGB_D;
+	 wire Jump; 
     wire FlushE;
 
     // Module Initiation
@@ -54,7 +55,9 @@ module Pipeline_Top(input clk, input rst);
                         .RS1_E(RS1_E),
                         .RS2_E(RS2_E),
 								
-								.RGB_D(RGB_D)
+								.RGB_D(RGB_D),
+								
+								.JumpE(Jump)
                     );
 
     // Execute Stage
@@ -73,7 +76,8 @@ module Pipeline_Top(input clk, input rst);
                         .RD_E(RD_E), 
                         .PCE(PCE), 
                         .PCPlus4E(PCPlus4E),
-							   .FlushE(FlushE),	
+							   .FlushE(FlushE),
+								.JumpE(Jump),
 								
                         .PCSrcE(PCSrcE), 
                         .PCTargetE(PCTargetE), 

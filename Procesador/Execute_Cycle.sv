@@ -1,6 +1,6 @@
 module execute_cycle(
     input clk, rst,
-    input RegWriteE, ALUSrcE, MemWriteE, ResultSrcE, BranchE, FlushE,
+    input RegWriteE, ALUSrcE, MemWriteE, ResultSrcE, BranchE, FlushE, JumpE,
     input [2:0] ALUControlE,
     input [17:0] RD1_E, RD2_E, Imm_Ext_E, ResultW,
     input [4:0] RD_E,
@@ -113,7 +113,7 @@ module execute_cycle(
     end
 
     // Asignaciones de salida
-    assign PCSrcE = ZeroE & BranchE;
+    assign PCSrcE = (ZeroE & BranchE) || JumpE;
     assign RegWriteM = RegWriteE_r;
     assign MemWriteM = MemWriteE_r;
     assign ResultSrcM = ResultSrcE_r;

@@ -10,7 +10,8 @@ module Main_Decoder(
     output reg ResultSrc,   // Selección del resultado (ALU o memoria)
     output reg Branch,      // Indicar si es una instrucción de salto condicional
     output reg [1:0] ALUOp,  // Señal de control para activar la ALU
-	 output reg [1:0] RGB    //Indica el color que debe acceder a mem
+	 output reg [1:0] RGB,    //Indica el color que debe acceder a mem
+	 output reg Jump
 );
 
     always @(*) begin
@@ -23,6 +24,7 @@ module Main_Decoder(
         Branch     = 0;
         ALUOp      = 2'b00; // La ALU no se activa por defecto
 		  RGB			 = 2'b00; //ningun color
+		  Jump 		 = 0;
 
         // Decodificación según el tipo de instrucción
         case (tipo)
@@ -66,10 +68,13 @@ module Main_Decoder(
             2'b10: begin  // Instrucciones de Control de Flujo
                 case (op)
                     2'b00: begin
-									Branch = 1; // Branch
-									ImmSrc = 1 ;
+									Branch = 0; // Branch
+									ImmSrc = 2'b10 ;
+									Jump  = 1; 
+							
 									end
                     2'b01: Branch = 1; // Branch_link
+						  
                     2'b10: begin // CMP
                         ALUOp = 2'b01; // Activamos la ALU para comparación
                         RegWrite = 0; //	 No se escribe en registros
