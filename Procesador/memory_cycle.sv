@@ -3,7 +3,7 @@ module memory_cycle(
 	input logic [4:0] RD_M, // Seguramente tenga q cambiar con el isa
 	input logic [8:0] PCPlus4M,
 	input logic [17:0] ALU_ResultM, WriteDataM, 
-	input logic [1:0] RGB_E,
+	input logic [1:0] RGB_M, RGB_E,
 	output logic RegWriteW, ResultSrcW, 
 	output logic [4:0] RD_W, // Seguramente tenga q cambiar con el isa
 	output logic [8:0] PCPlus4W,
@@ -11,17 +11,44 @@ module memory_cycle(
 	);
 	
 	logic [17:0] ReadDataM;
+	logic [23:0] Data_23;
+	logic [24:0] WriteDataIn;
 	logic RegWriteM_reg, ResultSrcM_reg;
 	logic [4:0] RD_M_reg; // Seguramente tenga q cambiar con el isa
 	logic [8:0] PCPlus4M_reg;
 	logic [17:0] ALU_ResultM_reg, ReadDataM_reg;	
-
+	logic [2:0] byteena;
+	
+	reg [23:0] Data_23_r;
+	reg [1:0] RGB_M_r;
+	
+	ByteDecoder byte_deco(
+    .data_in(WriteDataM),   // Dato de entrada de 18 bits
+    .byteena(byteena),    // Señal de byteena de 3 bits
+    .data_out(WriteDataIn) // Salida de 24 bits
+	);
+	
 	Ram ram(
 			.address(ALU_ResultM),
 			.clock(clk),
-			.data(WriteDataM),
+			.data(WriteDataIn),
 			.wren(MemWriteM),
-			.q(ReadDataM));
+			.byteena(byteena),
+			.q(Data_23));
+			
+	ByteEnableDecoder deco_byt (
+			.byteena_in(RGB_M),
+			.wren(MemWriteM),
+			.byteena(byteena));
+			
+			
+	Mux3_8 MUX_Read (    
+                .a(Data_23[23:16]),
+                .b(Data_23[15:8]),
+					 .c(Data_23[7:0]),
+                .s(RGB_M_r),
+					 .d(ReadDataM)
+                );
 	
 	// Memory Stage Register Logic
 	always @(posedge clk or negedge rst) begin
@@ -32,6 +59,7 @@ module memory_cycle(
 			PCPlus4M_reg <= 9'h00000000; 
 			ALU_ResultM_reg <= 18'h00000000; 
 			ReadDataM_reg <= 18'h00000000;
+			Data_23_r <= 18'h00000000;
 	  end
 	  else begin
 			RegWriteM_reg <= RegWriteM; 
@@ -40,6 +68,8 @@ module memory_cycle(
 			PCPlus4M_reg <= PCPlus4M; 
 			ALU_ResultM_reg <= ALU_ResultM; 
 			ReadDataM_reg <= ReadDataM;
+			Data_23_r <= ReadDataM_reg;
+			RGB_M_r <= RGB_M;
 	  end
 	end 
 
@@ -49,6 +79,6 @@ module memory_cycle(
 	assign RD_W = RD_M_reg;
 	assign PCPlus4W = PCPlus4M_reg;
 	assign ALU_ResultW = ALU_ResultM_reg;
-	assign ReadDataW = ReadDataM_reg;
+	assign ReadDataW = ReadDataM;
 
 endmodule

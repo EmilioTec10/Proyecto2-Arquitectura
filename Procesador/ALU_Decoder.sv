@@ -17,7 +17,7 @@ module ALU_Decoder(
 					end
 					
 				2'b01:begin
-					ALUControl = 3'b001;
+					ALUControl = 3'b000;
 		
 					end
 					
