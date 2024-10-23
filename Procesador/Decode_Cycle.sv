@@ -39,9 +39,9 @@ module decode_cycle(
 	 reg  PCDirectionD_r;
 	 
 	 
-    assign A2 = (InstrD[32] == 1'b0 && InstrD[31:30] == 2'b01 && InstrD[29:28] == 2'b00 ) ? InstrD[4:0]  : InstrD[22:18];
+    assign A2 = (InstrD[32] == 1'b0 && InstrD[31:30] == 2'b01 && InstrD[29:28] == 2'b00 && InstrD[31:30] != 2'b01) ? InstrD[4:0]  : InstrD[22:18];
 	 
-	 assign ResultD = ( InstrD[31:30] == 2'b10 && InstrD[29:28] == 2'b01 ) ? {9'b0, PCD} : ResultW; 
+	 assign ResultD = (InstrD[31:30] == 2'b10 && InstrD[29:28] == 2'b01 && InstrD[31:30] != 2'b01) ? {9'b0, PCD} : ResultW; 
 	 assign RDW_D = (InstrD[31:30] == 2'b10 && InstrD[29:28] == 2'b01)? 5'b11101 : RDW;
 	 
 	 assign A1 = (InstrD[31:30] == 2'b11 && InstrD[29:28] == 2'b00)? 5'b11101 :  InstrD[27:23];
@@ -59,7 +59,7 @@ module decode_cycle(
     .ResultSrc(ResultSrcD),   // Selección del resultado (ALU/memoria)
     .Branch(BranchD),      // Indicar si es una instrucción de salto condicional
     .ALUControl(ALUControlD),  // Control para la ALU
-	 .RGB(RGB_D)						// Control de color					// Control de color
+	 .RGB(RGB_D),						// Control de color					// Control de color
 	 .Jump(JumpD),
 	 .PCDirection(PCDirectionD),
 	 .PCReturnSignal(PCReturnSignalD)
