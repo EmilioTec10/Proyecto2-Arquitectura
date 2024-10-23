@@ -1,12 +1,12 @@
 module execute_cycle(
     input clk, rst,
-    input RegWriteE, ALUSrcE, MemWriteE, ResultSrcE, BranchE, FlushE, JumpE,PCsrcE,
+    input RegWriteE, ALUSrcE, MemWriteE, ResultSrcE, BranchE, FlushE, JumpE, PCDirectionE,
+    
     input [2:0] ALUControlE,
     input [17:0] RD1_E, RD2_E, Imm_Ext_E, ResultW,
     input [4:0] RD_E,
     input [8:0] PCE, PCPlus4E, 
-    input [1:0] ForwardA_E, ForwardB_E, RGB_D,
-    
+    input [1:0] ForwardA_E, ForwardB_E, RGB_D, 
     output PCSrcE, RegWriteM, MemWriteM, ResultSrcM,
     output [4:0] RD_M,
     output [17:0] PCPlus4M, WriteDataM, ALU_ResultM, 
@@ -71,7 +71,7 @@ module execute_cycle(
     PC_Adder_18b branch_adder (
         .a(PCE),
         .b(Imm_Ext_E[8:0]),
-		  .PCsrc(PCsrcE),
+		  .PCDirectionE(PCDirectionE),
         .c(PCTargetE)
     );
 
