@@ -6,13 +6,13 @@ module Pipeline_Top(input clk, input rst);
     wire [4:0] RD_E, RD_M, RDW;
 	 wire [32:0]  InstrD;
     wire [17:0] ResultW, RD1_E, RD2_E, Imm_Ext_E, WriteDataM, ALU_ResultM;
-	 wire [8:0] PCPlus4W, PCTargetE, PCD, PCPlus4D,  PCE, PCPlus4E, PCPlus4M;
+	 wire [8:0] PCPlus4W, PCTargetE, PCD, PCPlus4D,  PCE, PCPlus4E, PCPlus4M, R29_E;
 	 wire [17:0]  ALU_ResultW, ReadDataW;
     wire [4:0] RS1_E, RS2_E;
     wire [1:0] ForwardBE, ForwardAE, RGB_D;
 	 wire Jump; 
     wire FlushE;
-	 wire PCDirection;
+	 wire PCDirection, PCReturnSignal;
 
     // Module Initiation
     // Fetch Stage
@@ -24,7 +24,9 @@ module Pipeline_Top(input clk, input rst);
                         .InstrD(InstrD), 
                         .PCD(PCD), 
                         .PCPlus4D(PCPlus4D),
-								.StallF(StallF)
+								.StallF(StallF),
+								.PCReturnSignalE(PCReturnSignal),
+								.PCReturnE(R29_E)
                     );
 
     // Decode Stage
@@ -59,8 +61,9 @@ module Pipeline_Top(input clk, input rst);
 								.RGB_D(RGB_D),
 								
 								.JumpE(Jump),
-								.PCDirectionE(PCDirection)
-								
+								.PCDirectionE(PCDirection),
+								.PCReturnSignalE(PCReturnSignal),
+								.R29_E(R29_E)
                     );
 
     // Execute Stage
