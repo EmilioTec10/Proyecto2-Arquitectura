@@ -1,8 +1,8 @@
 module decode_cycle(
-    input clk, rst, RegWriteW, ForwardAD, ForwardBD, ForwardCD,
+    input clk, rst, RegWriteW, ForwardAD, ForwardBD, ForwardCD, BranchLinkW,
     input [4:0] RDW,
     input [32:0] InstrD, // Instrucción de 34 bits
-    input [8:0] PCD, PCPlus4D, // PC ajustado a 18 bits
+    input [8:0] PCD, PCPlus4D, PCW, // PC ajustado a 18 bits
     input [17:0] ResultW,
     
     output RegWriteE, ALUSrcE, MemWriteE, ResultSrcE, BranchE , PCReturnSignalE,
@@ -41,6 +41,7 @@ module decode_cycle(
 	 
     assign A2 = (InstrD[32] == 1'b0 && InstrD[31:30] == 2'b01 && InstrD[29:28] == 2'b00 && InstrD[31:30] != 2'b01) ? InstrD[4:0]  : InstrD[22:18];
 	 assign A1 = (InstrD[31:30] == 2'b11 && InstrD[29:28] == 2'b00)? 5'b11101 :  InstrD[27:23];
+	 assign ResultD = (BranchLinkW) ? {9'b0, PCW} : ResultW;
 	 
 	 Control_Unit_Top control(
     .tipo(InstrD[31:30]),   // Tipo de instrucción
@@ -67,7 +68,7 @@ module decode_cycle(
         .clk(clk),
         .rst(rst),
         .WE3(RegWriteW),
-        .WD3(ResultW),    // Escribimos en registros de 18 bits
+        .WD3(ResultD),    // Escribimos en registros de 18 bits
         .A1(A1), // Fuente A1 ajustada a la ISA
         .A2(A2),  // Fuente A2 ajustada a la ISA
         .A3(RDW),

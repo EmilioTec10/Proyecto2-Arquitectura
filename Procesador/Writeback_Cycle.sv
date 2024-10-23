@@ -1,10 +1,11 @@
 module writeback_cycle(
 	input clk, 
-	input rst, 
+	input rst, BranchLinkW,
 	input [1:0] ResultSrcW, 
 	input [17:0] PCPlus4W, 
 	input [17:0] ALU_ResultW, 
 	input [17:0] ReadDataW, 
+	input [8:0] PCW,
 	output [17:0] ResultW
 );
 

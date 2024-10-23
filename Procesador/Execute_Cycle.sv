@@ -7,11 +7,11 @@ module execute_cycle(
     input [8:0] PCE, PCPlus4E, 
     input [1:0] ForwardA_E, ForwardB_E, ForwardC_E, RGB_E, 
     
-    output PCSrcE, RegWriteM, MemWriteM, ResultSrcM,
+    output PCSrcE, RegWriteM, MemWriteM, ResultSrcM, BranchLinkM,
     output [4:0] RD_M,
     output [17:0] PCPlus4M, WriteDataM, ALU_ResultM,
     output [1:0] RGB_M,
-    output [8:0] PCTargetE
+    output [8:0] PCTargetE, PCM
 );
 
     // Declaración de señales internas
@@ -20,10 +20,10 @@ module execute_cycle(
     logic ZeroE;
 
     // Registros para almacenar los valores intermedios
-    reg RegWriteE_r, MemWriteE_r, ResultSrcE_r;
+    reg RegWriteE_r, MemWriteE_r, ResultSrcE_r, BranchLinkE_r;
     reg [4:0] RD_E_r;
     reg [17:0] RD2_E_r, RD4_E_r, Scr_Write_r;
-    reg [8:0] PCPlus4E_r;
+    reg [8:0] PCPlus4E_r, PCE_r;
     reg [17:0] ResultE_r;  // Registro ajustado a 34 bits para almacenar el resultado de la ALU
 	 reg [1:0] RGB_E_r;
 
@@ -93,10 +93,12 @@ module execute_cycle(
             RD_E_r <= 5'h00;
             PCPlus4E_r <= 9'd0;  
             RD2_E_r <= 18'd0; 
-				    RD4_E_r <= 18'd0; 	
+				RD4_E_r <= 18'd0; 	
             ResultE_r <= 18'd0;  // Inicializar a 0
-				    RGB_E_r <= 2'd0;
-				    Scr_Write_r <= 17'd0;
+				RGB_E_r <= 2'd0;
+				Scr_Write_r <= 17'd0;
+				PCE_r <= 9'b0;
+				BranchLinkE_r <= 1'b0;
 			end
 			
          else begin
@@ -110,6 +112,8 @@ module execute_cycle(
 				RD4_E_r <= RD4_E;	
 				Scr_Write_r <= Scr_Write;
             ResultE_r <= ResultE;  // Almacenar el resultado de la ALU
+				PCE_r <= PCE;
+				BranchLinkE_r <= BranchLinkE;
         end
     end
 
@@ -121,7 +125,9 @@ module execute_cycle(
     assign RD_M = RD_E_r;
     assign PCPlus4M = PCPlus4E_r;
     assign WriteDataM = Scr_Write_r;
-    assign ALU_ResultM = (BranchLinkE) ? PCE : ResultE_r;
+    assign ALU_ResultM = ResultE_r;
 	 assign RGB_M = RGB_E_r;
+	 assign PCM = PCE_r;
+	 assign BranchLinkM = BranchLinkE_r;
 
 endmodule

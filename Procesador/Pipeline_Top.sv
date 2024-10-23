@@ -6,13 +6,13 @@ module Pipeline_Top(input clk, input rst);
     wire [4:0] RD_E, RD_M, RDW;
 	 wire [32:0]  InstrD;
    wire [17:0] ResultW, RD1_E, RD2_E, RD4_E, Imm_Ext_E, WriteDataM, ALU_ResultM;
-	 wire [8:0] PCPlus4W, PCTargetE, PCD, PCPlus4D,  PCE, PCPlus4E, PCPlus4M, R29_E;
+	 wire [8:0] PCPlus4W, PCTargetE, PCD, PCPlus4D,  PCE, PCPlus4E, PCPlus4M, R29_E, PCM, PCW;
 	 wire [17:0]  ALU_ResultW, ReadDataW;
    wire [4:0] RS1_E, RS2_E, RS4_E;
    wire [1:0] ForwardBE, ForwardAE, ForwardCE, RGB_E, RGB_M;
    wire ForwardAD, ForwardBD, ForwardCD;
 	 wire Jump; 
-	 wire PCDirection, PCReturnSignal, BranchLinkE;
+	 wire PCDirection, PCReturnSignal, BranchLinkE, BranchLinkM, BranchLinkW;
 
 
     // Module Initiation
@@ -38,6 +38,8 @@ module Pipeline_Top(input clk, input rst);
                         .rst(rst), 
                         .InstrD(InstrD), 
                         .PCD(PCD), 
+								.PCW(PCW),
+								.BranchLinkW(BranchLinkW),
                         .PCPlus4D(PCPlus4D), 
                         .RegWriteW(RegWriteW), 
                         .RDW(RDW), 
@@ -110,13 +112,17 @@ module Pipeline_Top(input clk, input rst);
                         .ForwardB_E(ForwardBE),
 								.ForwardC_E(ForwardCE),
 								.RGB_E(RGB_E),
-								.RGB_M(RGB_M)
+								.RGB_M(RGB_M),
+								.PCM(PCM),
+								.BranchLinkM(BranchLinkM)
                     );
     
     // Memory Stage
     memory_cycle Memory (
                         .clk(clk), 
                         .rst(rst), 
+								.PCM(PCM),
+								.BranchLinkM(BranchLinkM),
                         .RegWriteM(RegWriteM), 
                         .MemWriteM(MemWriteM), 
                         .ResultSrcM(ResultSrcM), 
@@ -131,13 +137,17 @@ module Pipeline_Top(input clk, input rst);
                         .ALU_ResultW(ALU_ResultW), 
                         .ReadDataW(ReadDataW),
 								.RGB_M(RGB_M),
-								.RGB_E(RGB_E)
+								.RGB_E(RGB_E),
+								.PCW(PCW),
+								.BranchLinkW(BranchLinkW)
                     );
 
     // Write Back Stage
     writeback_cycle WriteBack (
                         .clk(clk), 
                         .rst(rst), 
+								.PCW(PCW),
+								.BranchLinkW(BranchLinkW),
                         .ResultSrcW(ResultSrcW), 
                         .PCPlus4W(PCPlus4W), 
                         .ALU_ResultW(ALU_ResultW), 
