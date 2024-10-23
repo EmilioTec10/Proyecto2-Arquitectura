@@ -50,20 +50,23 @@ module Main_Decoder(
                         RegWrite = 1; // Escribimos en registro
                         ResultSrc = 1; // El resultado proviene de memoria
                         ALUOp = 2'b00; // No activamos la ALU para LD
-								RGB = 2'b01; //red
+								RGB = 2'b00; //red
+								ALUSrc = 1'b0;
                     end
                     2'b10: begin //LDG (load)
                         RegWrite = 1; // Escribimos en registro
                         ResultSrc = 1; // El resultado proviene de memoria
                         ALUOp = 2'b00; // No activamos la ALU para LD
-								RGB = 2'b10; //green
+								RGB = 2'b01; //green
+								ALUSrc = 1'b0;
                     end
 						  
 						   2'b11: begin // LDB (load)
                         RegWrite = 1; // Escribimos en registro
                         ResultSrc = 1; // El resultado proviene de memoria
                         ALUOp = 2'b00; // No activamos la ALU para LD
-								RGB = 2'b11; //blue
+								RGB = 2'b10; //blue
+								ALUSrc = 1'b0;
                     end
                 endcase
             end
@@ -102,20 +105,23 @@ module Main_Decoder(
                     2'b01: begin // STR (store)
 								MemWrite = 1; // Escribimos en memoria
                         RegWrite = 0; // No escribimos en registros
-                        ALUOp = 2'b00; // No activamos la ALU para STR
-								RGB = 2'b01; //red
+                        ALUOp = 2'b01; // No activamos la ALU para STR
+								RGB = 2'b00; //red
+								ALUSrc = 1'b0;
                     end
                     2'b10: begin // STG (store)
                         MemWrite = 1; // Escribimos en memoria
                         RegWrite = 0; // No escribimos en registros
-                        ALUOp = 2'b00; // No activamos la ALU para STR
-								RGB = 2'b10; //green
+                        ALUOp = 2'b01; // No activamos la ALU para STR
+								RGB = 2'b01; //green
+								ALUSrc = 1'b0;
                     end
 						  2'b11: begin // STB (store)
                         MemWrite = 1; // Escribimos en memoria
                         RegWrite = 0; // No escribimos en registros
-                        ALUOp = 2'b00; // No activamos la ALU para STR
-								RGB = 2'b11; //blue
+                        ALUOp = 2'b01; // No activamos la ALU para STR
+								RGB = 2'b10; //blue
+								ALUSrc = 1'b0;
                     end
                 endcase
             end

@@ -133,16 +133,22 @@ set_global_assignment -name SYSTEMVERILOG_FILE ../VGA/main_tb.sv
 set_global_assignment -name SYSTEMVERILOG_FILE ../VGA/mostrarImagen.sv
 set_global_assignment -name SYSTEMVERILOG_FILE ../VGA/sincronizador.sv
 set_global_assignment -name SYSTEMVERILOG_FILE main_top.sv
-set_global_assignment -name QIP_FILE ../VGA/Ram.qip
 set_global_assignment -name QIP_FILE ../VGA/imagen_original.qip
 set_global_assignment -name MIF_FILE ../VGA/imagen_original.mif
-set_global_assignment -name MIF_FILE ../VGA/Ram.mif
 set_global_assignment -name QIP_FILE instruction_memory.qip
 set_global_assignment -name SYSTEMVERILOG_FILE fetch_cycle_tb.sv
 set_global_assignment -name SYSTEMVERILOG_FILE fetch_cycle.sv
 set_global_assignment -name HEX_FILE memfile.hex
 set_global_assignment -name MIF_FILE imem.mif
 set_global_assignment -name SYSTEMVERILOG_FILE Imem.sv
+set_global_assignment -name MIF_FILE ram.mif
+set_global_assignment -name QIP_FILE Ram.qip
+set_global_assignment -name SYSTEMVERILOG_FILE ByteEnableDecoder.sv
+set_global_assignment -name SYSTEMVERILOG_FILE Ram_tb.sv
+set_global_assignment -name EDA_TEST_BENCH_NAME Ram_tb -section_id eda_simulation
+set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id Ram_tb
+set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME Ram_tb -section_id Ram_tb
+set_global_assignment -name SYSTEMVERILOG_FILE ByteDecoder.sv
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
@@ -157,4 +163,5 @@ set_global_assignment -name EDA_TEST_BENCH_FILE Sign_Extend_20_tb.sv -section_id
 set_global_assignment -name EDA_TEST_BENCH_FILE decode_cycle20_tb.sv -section_id decode_cycle20_tb
 set_global_assignment -name EDA_TEST_BENCH_FILE execute_cycle_tb.sv -section_id execute_cycle_tb
 set_global_assignment -name EDA_TEST_BENCH_FILE Mux_tb.sv -section_id Mux_tb
+set_global_assignment -name EDA_TEST_BENCH_FILE Ram_tb.sv -section_id Ram_tb
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

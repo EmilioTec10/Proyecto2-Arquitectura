@@ -5,11 +5,14 @@ module Register_File(
     input [4:0] A1,             // Dirección de registro fuente 1 (4 bits: 16 registros)
     input [4:0] A2,             // Dirección de registro fuente 2 (4 bits: 16 registros)
     input [4:0] A3,             // Dirección de registro destino (4 bits: 16 registros)
-    input [17:0] WD3,           // Dato de escritura (18 bits)
+	 input [4:0] A4,
+    input [17:0] WD3,           // Dato de escritura (24 bits)
 
-    output [17:0] RD1,          // Dato de lectura del registro fuente 1 (18 bits)
-    output [17:0] RD2,          // Dato de lectura del registro fuente 2 (18 bits)
-	 output [8:0] R29
+    output [17:0] RD1,          // Dato de lectura del registro fuente 1 (24 bits)
+    output [17:0] RD2,          // Dato de lectura del registro fuente 2 (24 bits)
+  output [17:0] RD4,
+  output [8:0] R29
+
 );
 
     // Definimos 16 registros de 34 bits
@@ -30,8 +33,9 @@ module Register_File(
     end
 
     // Lectura asincrónica de los registros (34 bits)
-    assign RD1 = (rst == 1'b0) ? 18'd0 : Register[A1];  // Leer 33 bits completos
-    assign RD2 = (rst == 1'b0) ? 18'd0 : Register[A2];  // Leer 33 bits completos
-	 assign R29 = (rst == 1'b0) ? 18'd0 : Register[29];
+    assign RD1 = (rst == 1'b0) ? 18'd0 : Register[A1];  // Leer 34 bits completos
+    assign RD2 = (rst == 1'b0) ? 18'd0 : Register[A2];  // Leer 34 bits completos
+	 assign RD4 = (rst == 1'b0) ? 18'd0 : Register[A4];  // Leer 34 bits completos
+  assign R29 = (rst == 1'b0) ? 18'd0 : Register[29];
 
 endmodule

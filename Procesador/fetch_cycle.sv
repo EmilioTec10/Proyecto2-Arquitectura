@@ -1,7 +1,6 @@
 module fetch_cycle(
 	input logic clk, rst, PCSrcE, PCReturnSignalE,
 	input logic [8:0] PCTargetE, PCReturnE,
-	input logic StallF,
 	output logic [32:0] InstrD,
 	output logic [8:0] PCD, PCPlus4D
 	);
@@ -11,8 +10,6 @@ module fetch_cycle(
 
 	logic [32:0] InstrF_reg;
 	logic [8:0] PCF_reg, PCPlus4F_reg;
-	
-	reg [32:0] stall_reg;
 
 	assign PC_F = (PCReturnSignalE) ? PCReturnE : (~PCSrcE) ? PCPlus4F : PCTargetE;
 	assign PCPlus4F = PCF + 9'd1;
@@ -33,19 +30,10 @@ module fetch_cycle(
         PCF_reg <= 9'd0;
         PCPlus4F_reg <= 9'd1;
     end 
-    else if (StallF) begin
-        // Mantener los valores actuales si StallF está activo
-        PCF <= PCF;
-        InstrF_reg <= InstrF_reg;
-		  stall_reg <= InstrF;
-        PCF_reg <= PCF_reg;
-        PCPlus4F_reg <= PCPlus4F_reg;
-    end
     else begin
         // Comportamiento normal
         PCF <= PC_F;
-        InstrF_reg <= (stall_reg != 33'h0) ? stall_reg : InstrF;
-		  stall_reg <= 33'h0; // Reiniciar stall_reg después de usarlo
+        InstrF_reg <= InstrF;
         PCF_reg <= PCF;
         PCPlus4F_reg <= PCPlus4F;
     end
