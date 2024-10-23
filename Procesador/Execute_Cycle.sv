@@ -1,16 +1,17 @@
 module execute_cycle(
     input clk, rst,
-    input RegWriteE, ALUSrcE, MemWriteE, ResultSrcE, BranchE,
+    input RegWriteE, ALUSrcE, MemWriteE, ResultSrcE, BranchE, JumpE, PCDirectionE,
     input [2:0] ALUControlE,
-    input [17:0] RD1_E, RD2_E, RD4_E, Imm_Ext_E,
+  input [17:0] RD1_E, RD2_E, RD4_E, Imm_Ext_E, ResultW,
     input [4:0] RD_E,
-    input [17:0] PCE, PCPlus4E, ResultW,
+    input [8:0] PCE, PCPlus4E, 
     input [1:0] ForwardA_E, ForwardB_E, ForwardC_E, RGB_E, 
     
     output PCSrcE, RegWriteM, MemWriteM, ResultSrcM,
     output [4:0] RD_M,
-    output [17:0] PCPlus4M, WriteDataM, ALU_ResultM, PCTargetE,
-	 output [1:0] RGB_M
+    output [17:0] PCPlus4M, WriteDataM, ALU_ResultM,
+    output [1:0] RGB_M,
+    output [8:0] PCTargetE
 );
 
     // Declaración de señales internas
@@ -21,7 +22,8 @@ module execute_cycle(
     // Registros para almacenar los valores intermedios
     reg RegWriteE_r, MemWriteE_r, ResultSrcE_r;
     reg [4:0] RD_E_r;
-    reg [17:0] PCPlus4E_r, RD2_E_r, RD4_E_r, Scr_Write_r;
+    reg [17:0] RD2_E_r, RD4_E_r, Scr_Write_r;
+    reg [8:0] PCPlus4E_r;
     reg [17:0] ResultE_r;  // Registro ajustado a 34 bits para almacenar el resultado de la ALU
 	 reg [1:0] RGB_E_r;
 
@@ -76,7 +78,8 @@ module execute_cycle(
     // Sumador para el branch (PCE + Imm_Ext_E)
     PC_Adder_18b branch_adder (
         .a(PCE),
-        .b(Imm_Ext_E),
+        .b(Imm_Ext_E[8:0]),
+		  .PCDirectionE(PCDirectionE),
         .c(PCTargetE)
     );
 
@@ -88,12 +91,12 @@ module execute_cycle(
             MemWriteE_r <= 1'b0; 
             ResultSrcE_r <= 1'b0;
             RD_E_r <= 5'h00;
-            PCPlus4E_r <= 24'd0; 
-            RD2_E_r <= 24'd0;
-				RD4_E_r <= 24'd0;	
-            ResultE_r <= 33'd0;  // Inicializar a 0
-				RGB_E_r <= 2'd0;
-				Scr_Write_r <= 17'd0;
+            PCPlus4E_r <= 9'd0;  
+            RD2_E_r <= 18'd0; 
+				    RD4_E_r <= 18'd0; 	
+            ResultE_r <= 18'd0;  // Inicializar a 0
+				    RGB_E_r <= 2'd0;
+				    Scr_Write_r <= 17'd0;
 			end
 			
          else begin
@@ -111,7 +114,7 @@ module execute_cycle(
     end
 
     // Asignaciones de salida
-    assign PCSrcE = ZeroE & BranchE;
+    assign PCSrcE = (ZeroE & BranchE) || JumpE;
     assign RegWriteM = RegWriteE_r;
     assign MemWriteM = MemWriteE_r;
     assign ResultSrcM = ResultSrcE_r;

@@ -8,9 +8,14 @@ module PC_Adder(a,b,c);
 endmodule
 
 
-module PC_Adder_18b(input [17:0] a,b,
-						output [17:0] c);
+module PC_Adder_18b(input [8:0] a,
+						input [8:0]b,
+						input PCDirectionE,
+						output [8:0] c);
 
-    assign c = a + b;
+ 
+
+	 assign c =(PCDirectionE== 1'b0)? a + b : a - b ;
+	 
     
 endmodule

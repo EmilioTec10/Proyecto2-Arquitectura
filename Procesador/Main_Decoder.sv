@@ -10,19 +10,25 @@ module Main_Decoder(
     output reg ResultSrc,   // Selección del resultado (ALU o memoria)
     output reg Branch,      // Indicar si es una instrucción de salto condicional
     output reg [1:0] ALUOp,  // Señal de control para activar la ALU
-	 output reg [1:0] RGB    //Indica el color que debe acceder a mem
+	 output reg [1:0] RGB,    //Indica el color que debe acceder a mem
+	 output reg Jump,
+	 output reg PCDirection, // Indica direccion de branch 
+	 output reg PCReturnSignal
 );
 
     always @(*) begin
         // Valores por defecto
-        RegWrite   = 0;
-        ImmSrc     = 2'b00;
-        ALUSrc     = 0;
-        MemWrite   = 0;
-        ResultSrc  = 0;
-        Branch     = 0;
-        ALUOp      = 2'b00; // La ALU no se activa por defecto
-		  RGB			 = 2'b00; //ningun color
+        RegWrite    = 0;
+        ImmSrc      = 2'b00;
+        ALUSrc      = 0;
+        MemWrite    = 0;
+        ResultSrc   = 0;
+        Branch      = 0;
+        ALUOp       = 2'b00; // La ALU no se activa por defecto
+		  RGB			  = 2'b00; //ningun color
+		  Jump 		  = 0;
+		  PCDirection = 0; //va hacia abajo
+		  PCReturnSignal = 0;
 
         // Decodificación según el tipo de instrucción
         case (tipo)
@@ -68,13 +74,22 @@ module Main_Decoder(
 
             2'b10: begin  // Instrucciones de Control de Flujo
                 case (op)
-                    2'b00: Branch = 1; // Branch
-                    2'b01: Branch = 1; // Branch_link
+                    2'b00: begin
+									PCDirection = Inm;
+									Jump  = 1; 
+							
+									end
+                    2'b01: begin 	// Branch_link
+									RegWrite = 1; // Escribe al registro 29
+									Jump =1;
+									end
                     2'b10: begin // CMP
+                        PCDirection = Inm; 
+								Branch = 1;
                         ALUOp = 2'b01; // Activamos la ALU para comparación
-                        RegWrite = 0; //	 No se escribe en registros
+                        
+								
                     end
-                    2'b11: Branch = 1; // BEQ (Branch if equal)
                 endcase
             end
 				
@@ -82,9 +97,10 @@ module Main_Decoder(
 					 ALUSrc = Inm;
                 case (op)
                     2'b00: begin // RET
-								Branch = 1;
-                        RegWrite = 1; // Registro 29
-                        ALUOp = 2'b01; // Se restar el PC al ultimo BL
+								//Branch = 1;
+								Jump = 1;
+								PCReturnSignal = 1;
+                        //ALUOp = 2'b01; // Se restar el PC al ultimo BL
                     end
                     2'b01: begin // STR (store)
 								MemWrite = 1; // Escribimos en memoria

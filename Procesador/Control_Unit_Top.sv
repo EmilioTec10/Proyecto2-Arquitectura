@@ -10,7 +10,10 @@ module Control_Unit_Top(
     output ResultSrc,   // Selección del resultado (ALU/memoria)
     output Branch,      // Indicar si es una instrucción de salto condicional
     output [2:0] ALUControl,  // Control para la ALU
-	 output [1:0] RGB //Indica el color que debe acceder a mem
+	 output [1:0] RGB, //Indica el color que debe acceder a mem
+	 output Jump,
+	 output PCDirection,
+	 output [8:0] PCReturnSignal
 );
 
     // Señal interna para ALUOp, que determinará la operación de la ALU
@@ -29,7 +32,10 @@ module Control_Unit_Top(
         .Branch(Branch),
         .ALUSrc(ALUSrc),
         .ALUOp(ALUOp),
-		  .RGB(RGB)
+		  .RGB(RGB),
+		  .Jump(Jump),
+		  .PCDirection(PCDirection),
+		  .PCReturnSignal(PCReturnSignal)
     );
 
     // Instancia del decodificador de la ALU

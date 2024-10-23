@@ -1,6 +1,6 @@
 module fetch_cycle(
-	input logic clk, rst, PCSrcE,
-	input logic [8:0] PCTargetE,
+	input logic clk, rst, PCSrcE, PCReturnSignalE,
+	input logic [8:0] PCTargetE, PCReturnE,
 	output logic [32:0] InstrD,
 	output logic [8:0] PCD, PCPlus4D
 	);
@@ -11,7 +11,7 @@ module fetch_cycle(
 	logic [32:0] InstrF_reg;
 	logic [8:0] PCF_reg, PCPlus4F_reg;
 
-	assign PC_F = (~PCSrcE) ? PCPlus4F : PCTargetE;
+	assign PC_F = (PCReturnSignalE) ? PCReturnE : (~PCSrcE) ? PCPlus4F : PCTargetE;
 	assign PCPlus4F = PCF + 9'd1;
 
 	// Declare Instruction Memory
