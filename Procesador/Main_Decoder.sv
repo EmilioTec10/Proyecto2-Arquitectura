@@ -73,20 +73,19 @@ module Main_Decoder(
                 case (op)
                     2'b00: begin
 									PCDirection = Inm;
-									Branch = 0; // Branch
-									ImmSrc = 2'b10 ;
 									Jump  = 1; 
 							
 									end
                     2'b01: begin 	// Branch_link
-									Branch = 0; 
-									ImmSrc = 2'b10;
 									RegWrite = 1; // Escribe al registro 29
 									Jump =1;
 									end
                     2'b10: begin // CMP
+                        PCDirection = Inm; 
+								Branch = 1;
                         ALUOp = 2'b01; // Activamos la ALU para comparación
-                        RegWrite = 0; //	 No se escribe en registros
+                        
+								
                     end
                 endcase
             end
