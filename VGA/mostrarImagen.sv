@@ -22,10 +22,12 @@ module mostrarImagen (
         
         if (reset) begin
             // Color de fondo por defecto (puedes cambiar el color)
-            if ((x >= 200 && x <= 455) && (y >= 120 && y <= 375)) begin
-                red = 8'b00000000;
-                green = 8'b11111111;
-                blue = 8'b00000000;
+            if ((x >= 120 && x <= 520) && (y >= 40 && y <= 440)) begin
+                 // Colorear el resto de los píxeles con el color de los datos de RAM
+                 pixel_data = data_ram;
+                 red = pixel_data[23:16];
+                 green = pixel_data[15:8];
+                 blue = pixel_data[7:0];
             end
             else begin
                 red = 8'b00000000;

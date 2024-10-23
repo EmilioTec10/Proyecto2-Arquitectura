@@ -30,7 +30,7 @@ module main(input clock_50,
 	
 		
 	controlador_vga controlador (.clock_25(clock_25),
-										  .reset(reset),
+										  .reset(~(reset)),
 										  .start(start),
 										  .data_ram(data_out),
 										  .data_dmem(rd),
