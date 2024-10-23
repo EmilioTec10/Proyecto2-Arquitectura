@@ -5,10 +5,15 @@ module contador_cursor (
     // Declarar la variable pos_cursor como un registro de 4 bits
     logic [3:0] pos_cursor;
     
+	 initial begin
+		pos_cursor = 4'd1;
+	 end
+	 
+	 
     // Lógica secuencial (flip-flop) para actualizar la posición con el botón
     always_ff @(posedge boton_cursor) begin
-        if (pos_cursor == 4'd15) begin
-            pos_cursor <= 4'd0;  // Reinicia la posición si llega a 15
+        if (pos_cursor == 4'd16) begin
+            pos_cursor <= 4'd1;  // Reinicia la posición si llega a 15
         end else begin
             pos_cursor <= pos_cursor + 4'd1;  // Incrementa la posición
         end

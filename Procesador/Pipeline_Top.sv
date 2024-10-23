@@ -1,4 +1,4 @@
-module Pipeline_Top(input clk, input rst);
+module Pipeline_Top(input clk, input rst, input logic start, input pos_cursor, output [23:0] pixel);
 
     // Declaration of Interim Wires
     wire PCSrcE, RegWriteW, RegWriteE, ALUSrcE, MemWriteE, ResultSrcE, BranchE, RegWriteM, MemWriteM, ResultSrcM, ResultSrcW;

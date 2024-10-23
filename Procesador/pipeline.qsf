@@ -39,7 +39,7 @@
 
 set_global_assignment -name FAMILY "Cyclone V"
 set_global_assignment -name DEVICE 5CSEMA5F31C6
-set_global_assignment -name TOP_LEVEL_ENTITY pipeline_tb
+set_global_assignment -name TOP_LEVEL_ENTITY main_top
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 20.1.0
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "21:42:21  OCTOBER 05, 2024"
 set_global_assignment -name LAST_QUARTUS_VERSION "20.1.0 Lite Edition"
@@ -149,9 +149,6 @@ set_global_assignment -name EDA_TEST_BENCH_NAME Ram_tb -section_id eda_simulatio
 set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id Ram_tb
 set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME Ram_tb -section_id Ram_tb
 set_global_assignment -name SYSTEMVERILOG_FILE ByteDecoder.sv
-set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
-set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
-set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_global_assignment -name EDA_TEST_BENCH_FILE pipeline_tb.sv -section_id pipeline_tb
 set_global_assignment -name EDA_TEST_BENCH_FILE fetch_cycle_tb.sv -section_id fetch_cycle_tb
 set_global_assignment -name EDA_TEST_BENCH_FILE ALU_tb.sv -section_id ALU_tb
@@ -164,4 +161,40 @@ set_global_assignment -name EDA_TEST_BENCH_FILE decode_cycle20_tb.sv -section_id
 set_global_assignment -name EDA_TEST_BENCH_FILE execute_cycle_tb.sv -section_id execute_cycle_tb
 set_global_assignment -name EDA_TEST_BENCH_FILE Mux_tb.sv -section_id Mux_tb
 set_global_assignment -name EDA_TEST_BENCH_FILE Ram_tb.sv -section_id Ram_tb
+set_global_assignment -name SYSTEMVERILOG_FILE Contador_Address.sv
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
+set_location_assignment PIN_AK16 -to blue_out[7]
+set_location_assignment PIN_AJ16 -to blue_out[6]
+set_location_assignment PIN_AJ17 -to blue_out[5]
+set_location_assignment PIN_AH19 -to blue_out[4]
+set_location_assignment PIN_AJ19 -to blue_out[3]
+set_location_assignment PIN_AH20 -to blue_out[2]
+set_location_assignment PIN_AJ20 -to blue_out[1]
+set_location_assignment PIN_AJ21 -to blue_out[0]
+set_location_assignment PIN_AJ4 -to boton_cursor
+set_location_assignment PIN_AF14 -to clock_50
+set_location_assignment PIN_AH23 -to green_out[7]
+set_location_assignment PIN_AK23 -to green_out[6]
+set_location_assignment PIN_AH24 -to green_out[5]
+set_location_assignment PIN_AJ24 -to green_out[4]
+set_location_assignment PIN_AK24 -to green_out[3]
+set_location_assignment PIN_AH25 -to green_out[2]
+set_location_assignment PIN_AJ25 -to green_out[1]
+set_location_assignment PIN_AK26 -to green_out[0]
+set_location_assignment PIN_AK19 -to hsync
+set_location_assignment PIN_AJ22 -to n_blank
+set_location_assignment PIN_AJ26 -to red_out[7]
+set_location_assignment PIN_AG26 -to red_out[6]
+set_location_assignment PIN_AF26 -to red_out[5]
+set_location_assignment PIN_AH27 -to red_out[4]
+set_location_assignment PIN_AJ27 -to red_out[3]
+set_location_assignment PIN_AK27 -to red_out[2]
+set_location_assignment PIN_AK28 -to red_out[1]
+set_location_assignment PIN_AK29 -to red_out[0]
+set_location_assignment PIN_AB30 -to reset
+set_location_assignment PIN_Y27 -to start
+set_location_assignment PIN_AK21 -to vgaclock
+set_location_assignment PIN_AK18 -to vsync
