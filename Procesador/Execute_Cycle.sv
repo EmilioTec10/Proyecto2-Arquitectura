@@ -1,6 +1,6 @@
 module execute_cycle(
     input clk, rst,
-    input RegWriteE, ALUSrcE, MemWriteE, ResultSrcE, BranchE, JumpE, PCDirectionE,
+    input RegWriteE, ALUSrcE, MemWriteE, ResultSrcE, BranchE, JumpE, PCDirectionE, BranchLinkE,
     input [2:0] ALUControlE,
   input [17:0] RD1_E, RD2_E, RD4_E, Imm_Ext_E, ResultW,
     input [4:0] RD_E,
@@ -121,7 +121,7 @@ module execute_cycle(
     assign RD_M = RD_E_r;
     assign PCPlus4M = PCPlus4E_r;
     assign WriteDataM = Scr_Write_r;
-    assign ALU_ResultM = ResultE_r[17:0];  // Truncar el resultado de la ALU a 24 bits
+    assign ALU_ResultM = (BranchLinkE) ? PCE : ResultE_r;
 	 assign RGB_M = RGB_E_r;
 
 endmodule

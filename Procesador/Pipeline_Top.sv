@@ -12,7 +12,7 @@ module Pipeline_Top(input clk, input rst);
    wire [1:0] ForwardBE, ForwardAE, ForwardCE, RGB_E, RGB_M;
    wire ForwardAD, ForwardBD, ForwardCD;
 	 wire Jump; 
-	 wire PCDirection, PCReturnSignal;
+	 wire PCDirection, PCReturnSignal, BranchLinkE;
 
 
     // Module Initiation
@@ -63,7 +63,7 @@ module Pipeline_Top(input clk, input rst);
                         .RS1_E(RS1_E),
                         .RS2_E(RS2_E),
 								.RS4_E(RS4_E),
-								
+								.BranchLinkE(BranchLinkE),
 
 								
       .RGB_E(RGB_E),
@@ -93,6 +93,7 @@ module Pipeline_Top(input clk, input rst);
                         .PCPlus4E(PCPlus4E),
 								.JumpE(Jump),
 								.PCDirectionE(PCDirection),
+								.BranchLinkE(BranchLinkE),
 
 								
                         .PCSrcE(PCSrcE), 

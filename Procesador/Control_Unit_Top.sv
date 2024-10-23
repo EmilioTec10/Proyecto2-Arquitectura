@@ -12,7 +12,7 @@ module Control_Unit_Top(
     output [2:0] ALUControl,  // Control para la ALU
 	 output [1:0] RGB, //Indica el color que debe acceder a mem
 	 output Jump,
-	 output PCDirection,
+	 output PCDirection, BranchLink,
 	 output [8:0] PCReturnSignal
 );
 
@@ -35,7 +35,8 @@ module Control_Unit_Top(
 		  .RGB(RGB),
 		  .Jump(Jump),
 		  .PCDirection(PCDirection),
-		  .PCReturnSignal(PCReturnSignal)
+		  .PCReturnSignal(PCReturnSignal),
+		  .BranchLink(BranchLink)
     );
 
     // Instancia del decodificador de la ALU

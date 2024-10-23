@@ -13,7 +13,7 @@ module Main_Decoder(
 	 output reg [1:0] RGB,    //Indica el color que debe acceder a mem
 	 output reg Jump,
 	 output reg PCDirection, // Indica direccion de branch 
-	 output reg PCReturnSignal
+	 output reg PCReturnSignal, BranchLink
 );
 
     always @(*) begin
@@ -29,6 +29,7 @@ module Main_Decoder(
 		  Jump 		  = 0;
 		  PCDirection = 0; //va hacia abajo
 		  PCReturnSignal = 0;
+		  BranchLink = 0;
 
         // Decodificación según el tipo de instrucción
         case (tipo)
@@ -81,7 +82,8 @@ module Main_Decoder(
 									end
                     2'b01: begin 	// Branch_link
 									RegWrite = 1; // Escribe al registro 29
-									Jump =1;
+									Jump = 1;
+									BranchLink = 1;
 									end
                     2'b10: begin // CMP
                         PCDirection = Inm; 
